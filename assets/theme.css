@@ -82,6 +82,281 @@ body {
   padding: 1rem 1.15rem;
 }
 
+/* 互动教材：章节在 Markdown 中只放置占位元素，具体行为由 assets/js/interactive-chapters.js 提供。 */
+.interactive-lab {
+  margin: 1.8rem 0 2.4rem;
+}
+
+.lab-shell {
+  --lab-ink: #163b57;
+  --lab-blue: #0b6095;
+  --lab-sky: #eaf6fb;
+  --lab-line: #c9dfeb;
+  --lab-success: #147d54;
+  --lab-warning: #a85d14;
+  color: var(--lab-ink);
+  border: 1px solid var(--lab-line);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #f7fcff 0%, #fff 38%, #f5fbf8 100%);
+  box-shadow: 0 12px 34px rgba(15, 70, 96, .10);
+  overflow: hidden;
+}
+
+.lab-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.4rem;
+  padding: 1.6rem 1.7rem 1.25rem;
+  border-bottom: 1px solid var(--lab-line);
+  background: linear-gradient(120deg, #e8f6fc, #f4fbf8);
+}
+
+.lab-header h3,
+.lab-shell h4 {
+  color: var(--lab-ink) !important;
+  margin: .18rem 0 .55rem !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+
+.lab-header h3 { font-size: 1.32rem; }
+.lab-header p { margin: 0; }
+
+.lab-eyebrow,
+.lab-stage-kicker {
+  margin: 0 0 .25rem !important;
+  color: #39758f;
+  font-size: .76rem;
+  font-weight: 750;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.lab-progress {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: .28rem;
+  padding-top: .38rem;
+  color: #4a6c7f;
+  font-size: .82rem;
+  white-space: nowrap;
+}
+
+.lab-progress-dot {
+  display: inline-block;
+  width: .56rem;
+  height: .56rem;
+  border: 1px solid #8fb5c8;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.lab-progress-dot.is-done { background: #16a36f; border-color: #16a36f; }
+
+.lab-brief,
+.lab-note {
+  margin: 1rem 1.25rem;
+  padding: .95rem 1.05rem;
+  border-left: 4px solid #19a06f;
+  border-radius: 0 10px 10px 0;
+  background: #f0faf5;
+  color: #28596d;
+}
+
+.lab-brief strong,
+.lab-note strong { color: #145d49; }
+.lab-brief ul { margin: .55rem 0 0; padding-left: 1.2rem; }
+.lab-brief li { margin: .18rem 0; }
+
+.lab-stage-list { padding: .2rem 1.25rem 0; }
+
+.lab-stage {
+  display: grid;
+  grid-template-columns: 2.15rem minmax(0, 1fr);
+  gap: .85rem;
+  padding: 1.05rem 0;
+  border-bottom: 1px dashed #d5e6ee;
+}
+
+.lab-stage-number {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 50%;
+  background: #d9eff8;
+  color: var(--lab-blue);
+  font-weight: 800;
+}
+
+.lab-stage-content > p { margin-top: 0; }
+
+.lab-option-grid,
+.lab-record-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .65rem;
+}
+
+.lab-option,
+.lab-record,
+.lab-chip,
+.lab-tab,
+.lab-primary,
+.lab-secondary {
+  appearance: none;
+  border: 1px solid #b9d4e1;
+  color: var(--lab-ink);
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.lab-option,
+.lab-record {
+  display: flex;
+  align-items: flex-start;
+  gap: .66rem;
+  padding: .8rem .85rem;
+  border-radius: 11px;
+  text-align: left;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+.lab-option:hover,
+.lab-record:hover,
+.lab-chip:hover,
+.lab-tab:hover { border-color: #1981b4; box-shadow: 0 3px 10px rgba(9, 96, 149, .10); }
+.lab-option:focus-visible,
+.lab-record:focus-visible,
+.lab-chip:focus-visible,
+.lab-tab:focus-visible,
+.lab-primary:focus-visible,
+.lab-secondary:focus-visible,
+.lab-select-wrap select:focus-visible { outline: 3px solid rgba(39, 143, 190, .35); outline-offset: 2px; }
+
+.lab-option.is-selected,
+.lab-record.is-selected,
+.lab-chip.is-selected,
+.lab-tab.is-selected { border-color: #117eb1; background: #eaf7fc; }
+.lab-option.is-correct,
+.lab-record.is-correct,
+.lab-chip.is-correct,
+.lab-select-wrap select.is-correct { border-color: #22a06b; background: #effaf4; }
+.lab-option.is-incorrect,
+.lab-record.is-incorrect,
+.lab-chip.is-incorrect,
+.lab-select-wrap select.is-incorrect { border-color: #df8c42; background: #fff8ee; }
+
+.lab-option-letter,
+.lab-checkbox {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid #8fb9cb;
+  border-radius: 50%;
+  color: #21749a;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.lab-checkbox { border-radius: 4px; }
+.lab-record.is-selected .lab-checkbox { color: #fff; border-color: #1582b4; background: #1582b4; }
+.lab-option strong,
+.lab-record strong { display: block; line-height: 1.38; }
+.lab-option small,
+.lab-record small { display: block; margin-top: .22rem; color: #577488; line-height: 1.45; }
+
+.lab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
+  padding: 1rem 1.25rem;
+}
+
+.lab-primary,
+.lab-secondary {
+  border-radius: 8px;
+  padding: .62rem .9rem;
+  font-size: .92rem;
+  font-weight: 700;
+}
+
+.lab-primary { border-color: var(--lab-blue); background: var(--lab-blue); color: #fff; }
+.lab-primary:hover { background: #084d77; }
+.lab-primary:disabled { cursor: not-allowed; opacity: .48; }
+.lab-secondary { color: #2d667e; background: #fff; }
+
+.lab-feedback {
+  margin: .82rem 0 0;
+  padding: .76rem .88rem;
+  border-radius: 9px;
+  border: 1px solid;
+}
+
+.lab-feedback p { margin: .28rem 0 0; }
+.lab-feedback--success { border-color: #9ed7bc; background: #effaf4; color: #145d41; }
+.lab-feedback--warning { border-color: #f0c68c; background: #fff8ec; color: #875014; }
+
+.lab-transfer {
+  margin: 1.2rem 1.25rem 0;
+  padding: 1.05rem;
+  border: 1px solid #d5e8ef;
+  border-radius: 12px;
+  background: #fbfeff;
+}
+
+.lab-match-list { margin-top: .8rem; }
+.lab-match-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 11rem;
+  align-items: center;
+  gap: .85rem;
+  padding: .58rem 0;
+  border-top: 1px dashed #d7e5eb;
+}
+.lab-match-row p { margin: 0; }
+.lab-select-wrap select { width: 100%; padding: .46rem; border: 1px solid #a9c6d4; border-radius: 7px; background: #fff; color: var(--lab-ink); }
+
+.lab-chip-grid { display: flex; flex-wrap: wrap; gap: .52rem; }
+.lab-chip { padding: .54rem .68rem; border-radius: 999px; font-size: .88rem; }
+.lab-chip span { color: #167d56; font-weight: 800; }
+
+.lab-mode-tabs { display: flex; flex-wrap: wrap; gap: .42rem; margin: .7rem 0 .85rem; }
+.lab-tab { padding: .45rem .65rem; border-radius: 7px; font-size: .86rem; }
+.lab-plot-wrap { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(12rem, .7fr); gap: .8rem; align-items: stretch; }
+.lab-spectrum { display: block; width: 100%; min-height: 220px; }
+.lab-plot-bg { fill: #f7fbfd; stroke: #d3e7f0; }
+.lab-gridline { stroke: #dfecef; stroke-dasharray: 3 4; }
+.lab-spectrum-line { fill: none; stroke: #0a76aa; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.lab-spectrum-line--smooth { stroke: #147d54; }
+.lab-spectrum-line--normalised { stroke: #8156ab; }
+.lab-axis-text { fill: #628193; font-size: 11px; }
+.lab-plot-note { display: flex; flex-direction: column; justify-content: center; padding: .85rem; border-radius: 10px; background: #eef8fc; color: #315c71; }
+.lab-plot-note strong { color: #125777; }
+.lab-plot-note p { margin: .48rem 0 0; }
+
+.lab-inline-question { margin: 1rem 0 0; padding: .8rem .9rem; border: 1px solid #cfdee6; border-radius: 9px; }
+.lab-inline-question h5 { margin: 0 0 .65rem; color: var(--lab-ink); font-size: .94rem; }
+
+.lab-note { margin-top: 0; border-left-color: #0b6095; background: #edf7fb; }
+.lab-note strong { color: #0b6095; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (max-width: 768px) {
+  .lab-header { display: block; padding: 1.25rem; }
+  .lab-progress { margin-top: .8rem; }
+  .lab-brief, .lab-note, .lab-transfer, .lab-actions { margin-left: 1rem; margin-right: 1rem; }
+  .lab-stage-list { padding-left: 1rem; padding-right: 1rem; }
+  .lab-option-grid, .lab-record-grid, .lab-plot-wrap { grid-template-columns: 1fr; }
+  .lab-match-row { grid-template-columns: 1fr; gap: .4rem; }
+  .lab-select-wrap { max-width: 100%; }
+}
+
 @media (max-width: 768px) {
   .markdown-section {
     padding: 32px 24px;

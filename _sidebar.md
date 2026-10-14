@@ -5,6 +5,7 @@
   - [分组任务地图](docs/course/task-map.md)
   - [提交与评审流程](docs/course/workflow.md)
   - [评分与署名规则](docs/course/rubric.md)
+  - [互动教材范例与模板](docs/course/interactive-lab-template.md)
   - [本学年认领表](docs/course/team-register.md)
   - [年度资料、传承题与引文](resources/annual/README.md)
 
