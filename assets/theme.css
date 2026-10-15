@@ -601,3 +601,21 @@ body {
   .quality-chart,
   .diagnostic-chart { min-height: auto; }
 }
+
+
+/* Chapter 2 Python workbook; its app styles stay inside the iframe. */
+.markdown-section .python-workbook-panel { margin: 1.4rem 0 2rem; overflow: hidden; border: 1px solid #cfe2db; border-radius: 14px; background: #f6f7f3; }
+.markdown-section .python-workbook-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.1rem 1.25rem .75rem; background: #eef5f0; }
+.markdown-section .python-workbook-toolbar strong { display: block; color: #193f37; font-size: 1rem; }
+.markdown-section .python-workbook-toolbar span { display: block; margin-top: .3rem; color: #526f62; font-size: .82rem; }
+.markdown-section .python-workbook-links { display: flex; flex-wrap: wrap; gap: .6rem; }
+.markdown-section .python-workbook-links a { display: inline-block; padding: .48rem .7rem; border: 1px solid #b9d1c4; border-radius: 7px; background: #fff; color: #1c5c48; font-size: .8rem; text-decoration: none; }
+.markdown-section .python-workbook-links a:hover { background: #e2eee5; }
+.markdown-section .python-workbook-links a:focus-visible { outline: 3px solid #d49a4f; outline-offset: 3px; }
+.markdown-section p.python-workbook-caption { margin: 0; padding: .25rem 1.25rem 1rem; color: #526f62; background: #eef5f0; font-size: .82rem; line-height: 1.7; }
+.markdown-section .python-workbook-frame { display: block; width: 100%; height: 880px; height: min(85vh, 880px); min-height: 560px; margin: 0; border: 0; border-top: 1px solid #cfe2db; background: #f6f7f3; }
+@media (max-width: 600px) {
+  .markdown-section .python-workbook-toolbar { padding: 1rem; }
+  .markdown-section p.python-workbook-caption { padding-left: 1rem; padding-right: 1rem; }
+  .markdown-section .python-workbook-frame { min-height: 580px; }
+}

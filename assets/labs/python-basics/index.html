@@ -1,0 +1,1952 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>if (new URLSearchParams(location.search).get('embedded') === '1') document.documentElement.classList.add('workbook-embedded');</script>
+  <meta name="theme-color" content="#193f37">
+  <meta name="description" content="基于《人工智能分析化学》课件的 Python 基础互动学习手册。填写代码、检查答案，通过分析化学示例学习 Python、NumPy、Pandas 与绘图。">
+  <title>Python 基础 · 互动学习手册</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23193f37'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='monospace' font-weight='bold' font-size='32' fill='%23f6cd8a'%3EPy%3C/text%3E%3C/svg%3E">
+  <style>
+:root {
+  color-scheme: light;
+  --paper: #f6f7f3;
+  --card: #fff;
+  --ink: #243c35;
+  --forest: #193f37;
+  --forest-dark: #102f29;
+  --sage: #799386;
+  --muted: #7b8881;
+  --line: #e1e6de;
+  --soft: #edf2e9;
+  --orange: #e9a25c;
+  --radius: 15px;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 28px; }
+body { margin: 0; color: var(--ink); background: var(--paper); font-size: 14px; line-height: 1.65; }
+button, input, textarea { font: inherit; }
+button, a, input, textarea, summary { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button { color: inherit; }
+button:disabled { cursor: default; opacity: .5; }
+button, input, textarea { transition: border-color .16s, background .16s, box-shadow .16s, transform .16s; }
+a { color: inherit; text-underline-offset: 4px; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+input:focus-visible, textarea:focus-visible { outline: 3px solid #e9a25c88; outline-offset: 2px; }
+::selection { color: #173c32; background: #f4d0a8; }
+.app-shell { min-height: 100vh; }
+.sidebar { position: fixed; z-index: 30; inset: 0 auto 0 0; width: 246px; display: flex; flex-direction: column; padding: 31px 21px 23px; background: #fdfefa; border-right: 1px solid var(--line); overflow-y: auto; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--forest); font-size: 17px; font-weight: 750; letter-spacing: -.6px; line-height: 1.3; text-decoration: none; }
+.brand strong { display: block; margin-top: 4px; color: #7a8b70; font-size: 11px; font-weight: 450; letter-spacing: 1.5px; }
+.brand-mark { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; flex: 0 0 40px; background: var(--forest); color: #f5cc93; border-radius: 11px; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 18px; letter-spacing: -2px; }
+.brand-mark > span { color: #e9a25c; }
+.course-label { margin: 25px 0 27px; padding: 13px 12px; border: 1px solid #e4e9df; border-radius: 10px; background: #f4f6ef; color: #52674c; font-size: 12px; letter-spacing: .3px; }
+.course-label span { display: block; margin-top: 5px; color: #7d8d71; font-size: 11px; }
+.nav-section-label { display: flex; justify-content: space-between; margin: 0 10px 12px; color: #788a70; font-size: 11px; font-weight: 650; letter-spacing: .8px; }
+.nav-section-label span { color: #94a087; font-size: 10px; font-weight: 450; letter-spacing: 0; }
+#module-nav { display: grid; gap: 5px; }
+.module-nav-item { display: flex; align-items: center; gap: 11px; width: 100%; padding: 12px 11px; background: transparent; border: 1px solid transparent; border-radius: 9px; text-align: left; }
+.module-nav-item:hover { background: #f0f4ea; }
+.module-nav-item.active { background: #e8eee3; color: #254837; border-color: #e4eadc; }
+.nav-index { display: grid; place-items: center; flex: 0 0 26px; height: 26px; color: #9aa694; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 11px; border: 1px solid #e2e7dc; border-radius: 7px; }
+.active .nav-index { color: #f8fbf3; background: #42674a; border-color: #42674a; }
+.nav-copy { flex: 1; min-width: 0; }
+.nav-copy strong { display: block; color: #52634f; font-size: 13px; font-weight: 600; }
+.active .nav-copy strong { color: #274b37; }
+.nav-copy small { display: block; margin-top: 3px; color: #7e8e72; font-size: 10px; line-height: 1.6; }
+.nav-status { width: 28px; flex: 0 0 28px; color: #8c9c7f; font: 10px ui-monospace, SFMono-Regular, monospace; text-align: right; }
+.nav-status.complete, .nav-status.done { color: #4e7e51; font-size: 13px; }
+.sidebar-bottom { margin-top: auto; padding: 30px 8px 0; font-size: 11px; color: #7d8e71; }
+.sidebar-bottom p { margin: 10px 0 0; line-height: 1.8; }
+.save-status { display: flex; gap: 7px; align-items: center; color: #6f826b; }
+.save-dot { width: 5px; height: 5px; flex: 0 0 5px; border-radius: 50%; background: #7b9e6e; }
+.sidebar-bottom > button { margin: 12px 0 0; padding-left: 0; font-size: 11px; }
+.main { max-width: 1184px; margin-left: 246px; padding: 0 42px 22px; }
+.topbar { display: flex; align-items: center; justify-content: space-between; min-height: 83px; gap: 18px; }
+.breadcrumbs { display: flex; gap: 10px; color: #7d8e71; align-items: center; font-size: 12px; }
+.breadcrumbs strong { color: #586d56; font-weight: 500; }
+.top-actions { display: flex; align-items: center; gap: 10px; }
+.icon-button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 32px; min-height: 32px; padding: 5px 10px; background: transparent; border: 1px solid #dde4d6; border-radius: 7px; color: #6f8068; font-size: 20px; line-height: 1; }
+.icon-button:hover { background: #e9eee2; border-color: #bdcdb4; }
+.icon-button svg { width: 14px; height: 14px; }
+.mobile-toggle { display: none; }
+.hero { position: relative; display: flex; justify-content: space-between; overflow: hidden; gap: 24px; min-height: 290px; padding: 32px 35px; border-radius: 15px; background: var(--forest); color: #fff; }
+.hero::after { position: absolute; right: 85px; top: -175px; width: 410px; height: 410px; content: ''; border: 1px solid #ffffff0c; border-radius: 50%; pointer-events: none; }
+.eyebrow { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; color: #bfd0b6; font-size: 10px; font-weight: 650; letter-spacing: 2px; text-transform: uppercase; }
+.eyebrow-dot { width: 5px; height: 5px; background: var(--orange); border-radius: 50%; }
+.hero-copy { position: relative; z-index: 2; min-width: 0; }
+.hero-title { margin: 0 0 12px; color: #f5f6ee; font-size: clamp(27px, 2.6vw, 36px); font-weight: 650; line-height: 1.45; letter-spacing: -.8px; }
+.hero-description { max-width: 440px; margin: 0; color: #b3c6b7; font-size: 13px; line-height: 1.9; }
+.hero-stats { position: relative; z-index: 2; display: flex; gap: 0; margin-top: 25px; }
+.stat { min-width: 82px; padding-right: 28px; margin-right: 27px; border-right: 1px solid #ffffff21; }
+.stat:last-child { padding-right: 0; margin-right: 0; border: 0; }
+.stat strong { display: inline-block; margin-right: 5px; color: #fff; font-family: ui-monospace, SFMono-Regular, monospace; font-size: 21px; font-weight: 450; line-height: 1; }
+.stat span { color: #c5d3bb; font-size: 10px; }
+.hero-decoration { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 330px; flex: 0 0 330px; padding: 6px 2px 0; }
+.code-orbit { position: relative; width: 315px; border: 1px solid #73916c70; border-radius: 12px; background: #224a3b; box-shadow: 8px 14px 0 #12372c66; color: #e1e8d3; transform: rotate(-4deg); }
+.mini-window-dots { display: flex; align-items: center; gap: 5px; padding: 11px 14px; border-bottom: 1px solid #66845c40; }
+.mini-window-dots i { width: 5px; height: 5px; border-radius: 50%; background: #d4b685; }
+.mini-window-dots i:nth-child(2) { background: #8baf7a; }
+.mini-window-dots i:nth-child(3) { background: #709c80; }
+.mini-window-dots span { margin-left: auto; color: #a0ba99; font: 9px ui-monospace, SFMono-Regular, monospace; }
+.code-orbit pre { margin: 0; padding: 13px 15px 11px; font: 11px/1.85 ui-monospace, SFMono-Regular, monospace; }
+.syntax-comment { color: #91ac87; }
+.syntax-green { color: #bcd3a6; }
+.syntax-amber { color: #e0ba87; }
+.hero-code-blank { padding: 2px 7px; border: 1px dashed #99b97a; border-radius: 4px; color: #e8edcd; background: #76915830; }
+.mini-result { display: flex; gap: 10px; align-items: center; padding: 9px 15px; border-top: 1px solid #66845c40; color: #c6dcae; font: 11px ui-monospace, SFMono-Regular, monospace; }
+.mini-result > span:first-child { color: #8ca77e; }
+.result-check { margin-left: auto; color: #9dc48d; }
+.hero-badge { position: relative; z-index: 2; align-self: flex-end; margin: -3px 5px 13px 0; padding: 3px 9px; border: 1px solid #86a1813d; border-radius: 20px; color: #b9c8ae; font-size: 10px; letter-spacing: .2px; }
+.decoration-caption { margin-top: 18px; color: #9bb391; font-size: 10px; letter-spacing: 1px; }
+.workspace-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 27px 0 27px; }
+.search-wrap { position: relative; flex: 0 1 280px; }
+.search-wrap > span { position: absolute; top: 3px; left: 13px; color: #7f926f; font-size: 24px; pointer-events: none; }
+.search-wrap input { width: 100%; height: 39px; padding: 0 13px 0 37px; background: #fff; border: 1px solid #e1e6da; border-radius: 8px; color: #3f5b45; font-size: 12px; }
+.search-wrap input::placeholder { color: #a5af9a; }
+.filter-pills { display: flex; align-items: center; gap: 5px; }
+.filter-pill { padding: 7px 12px; border: 1px solid transparent; border-radius: 7px; background: transparent; color: #85947a; font-size: 11px; white-space: nowrap; }
+.filter-pill:hover { color: #3b5c3d; background: #eaf0e1; }
+.filter-pill.active { color: #48673d; background: #e6eddc; border-color: #dce6cf; font-weight: 600; }
+.module-intro { display: flex; align-items: flex-start; gap: 13px; margin-bottom: 16px; }
+.module-number { flex: 0 0 38px; height: 38px; display: grid; place-items: center; margin-top: 2px; border: 1px solid #d6dfcc; border-radius: 10px; color: #6c8a5d; background: #edf2e5; font: 14px ui-monospace, SFMono-Regular, monospace; }
+.module-heading { flex: 1; min-width: 0; }
+.module-heading h2 { margin: 0 0 3px; color: #284631; font-size: 21px; letter-spacing: -.5px; font-weight: 650; line-height: 1.45; }
+.module-heading p { margin: 0; color: #8d9a80; font-size: 12px; line-height: 1.8; }
+.source-tag { display: inline-block; align-self: center; padding: 3px 8px; border: 1px solid #dde5d5; border-radius: 5px; color: #8c9b7c; font: 9px ui-monospace, SFMono-Regular, monospace; white-space: nowrap; }
+.module-progress { display: flex; align-items: center; gap: 12px; margin: 0 0 23px; color: #768c65; font-size: 11px; }
+.progress-track { flex: 1; overflow: hidden; height: 4px; background: #e4eadb; border-radius: 5px; }
+.progress-track i { display: block; width: 0; height: 100%; background: #86a26b; border-radius: inherit; transition: width .35s; }
+.lesson-layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); align-items: start; gap: 20px; }
+.concept-panel { grid-column: 1; grid-row: 1; padding: 20px 17px 12px; border: 1px solid #e0e7d8; border-radius: 12px; background: #f0f4e9; }
+.concept-panel h3 { display: flex; align-items: center; gap: 7px; margin: 3px 0 14px; color: #48623c; font-size: 13px; font-weight: 650; }
+.panel-kicker { margin: 0 0 5px; color: #7b906a; font-size: 10px; font-weight: 600; letter-spacing: 1.3px; text-transform: uppercase; }
+.concept-lead { margin: 0 0 9px; color: #748b62; font-size: 12px; line-height: 1.9; }
+.learning-tip { display: flex; gap: 7px; margin-top: 10px; padding: 12px 0 3px; border-top: 1px solid #dfe7d5; color: #82916d; }
+.learning-tip > span { color: #b49865; font-size: 16px; }
+.learning-tip p { margin: 0; font-size: 12px; line-height: 1.9; }
+.concept { padding: 12px 0; border-top: 1px solid #dfe7d5; }
+.concept summary { position: relative; padding-right: 18px; list-style: none; cursor: pointer; color: #58714c; font-size: 12px; font-weight: 600; }
+.concept summary::-webkit-details-marker { display: none; }
+.concept summary::after { content: '+'; position: absolute; right: 1px; color: #8a9e78; font-size: 15px; line-height: 1.2; }
+.concept[open] summary::after { content: '−'; }
+.concept p { margin: 9px 0 0; color: #667e53; font-size: 12px; line-height: 1.95; }
+.concept code { color: #466c39; font-size: 11px; overflow-wrap: anywhere; }
+.concept pre { overflow: auto; margin: 10px 0 2px; padding: 9px 10px; background: #e6eddd; border-radius: 6px; color: #567246; font-size: 11px; line-height: 1.8; }
+.exercise-panel { grid-column: 2; grid-row: 1; min-width: 0; }
+.lesson-layout.searching { grid-template-columns: minmax(0, 1fr); }
+.searching .exercise-panel { grid-column: 1; }
+.search-module-label { margin: 19px 2px 8px; color: #708761; font-size: 12px; }
+.search-module-label:first-child { margin-top: 0; }
+.question-card { margin-bottom: 17px; padding: 22px 23px 18px; border: 1px solid #e1e6da; border-radius: 13px; background: #fff; }
+.question-heading { display: flex; align-items: center; gap: 9px; }
+.question-number { display: grid; place-items: center; width: 22px; height: 22px; flex: 0 0 22px; border: 1px solid #e1e8d9; border-radius: 6px; color: #879a74; font: 10px ui-monospace, SFMono-Regular, monospace; }
+.question-title { flex: 1; margin: 0; color: #3c563b; font-size: 15px; line-height: 1.6; font-weight: 600; }
+.status-pill { padding: 2px 7px; border-radius: 5px; background: #f2f4ee; color: #80916e; font-size: 10px; white-space: nowrap; }
+.status-pill.correct { color: #527c3f; background: #eaf3e1; }
+.status-pill.incorrect { color: #b07042; background: #fff0e2; }
+.status-pill.revealed { color: #718a65; background: #eef3e8; }
+.question-prompt { margin: 13px 0 15px; color: #7b8b6d; font-size: 13px; line-height: 1.9; }
+.question-prompt code, .hint-box code, .question-feedback code { padding: 1px 4px; border-radius: 3px; color: #526e42; background: #eff3e9; font-family: ui-monospace, SFMono-Regular, monospace; }
+.code-window { overflow: hidden; border: 1px solid #253f33; border-radius: 9px; background: #17372e; }
+.code-title { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px 10px; padding: 9px 12px; color: #b2c2a5; border-bottom: 1px solid #2b473a; background: #1d3c31; font: 10px ui-monospace, SFMono-Regular, monospace; }
+.code-title i { padding: 0 4px; color: #728f65; font-style: normal; }
+.code-template { margin: 0; padding: 17px 16px; overflow-x: auto; scrollbar-width: thin; scrollbar-color: #536d4b #18382e; color: #dae4c9; font: 14px/2.5 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; tab-size: 4; }
+.code-template code { font: inherit; }
+.code-template .comment { color: #7c9473; }
+.code-template .keyword { color: #dbb888; }
+.code-template .string { color: #bbd597; }
+.blank-input { width: 92px; min-width: 44px; max-width: 290px; height: 29px; margin: 0 3px; padding: 1px 7px; vertical-align: middle; border: 1px solid #95af73; border-radius: 4px; background: #f1f5df; color: #315637; font: 13px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; text-align: center; }
+.blank-input::placeholder { color: #7d8e66; font-size: 11px; }
+.blank-input:focus { border-color: #f1bd7b; background: #fff8e7; box-shadow: 0 0 0 2px #e9a25c30; }
+.blank-input.correct { border-color: #89b66d; background: #e9f5d8; color: #47772f; }
+.blank-input.incorrect { border-color: #e8a16f; background: #fff0de; color: #a45d35; }
+.blank-input.revealed { border-color: #b6c49f; background: #edf0e3; color: #7b8a68; }
+.question-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; margin-top: 15px; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 34px; padding: 7px 13px; border: 1px solid #dce5d2; border-radius: 7px; background: #fff; color: #7a8f69; font-size: 12px; font-weight: 500; line-height: 1.5; }
+.button:hover { background: #f0f4e9; border-color: #c9d7bb; }
+.button.primary { color: #f7faef; background: #527544; border-color: #527544; }
+.button.primary:hover { background: #416234; border-color: #416234; }
+.button.ghost { border-color: transparent; background: transparent; color: #a1ad93; }
+.button.ghost:hover { background: #f3f5ee; color: #6d845d; }
+.button.small { min-height: 32px; padding: 5px 10px; font-size: 12px; }
+.hint-toggle { margin-left: 0; }
+.question-feedback { margin-top: 13px; padding: 10px 12px; border-radius: 7px; color: #7e9270; background: #f2f6ec; font-size: 12px; line-height: 1.85; }
+.question-feedback.success { color: #5d8348; background: #edf6e6; }
+.question-feedback.error { color: #ac7a4f; background: #fff5e9; }
+.question-feedback.solution { color: #7c8d6f; background: #f2f5ed; }
+.question-feedback p, .hint-box p { margin: 0; }
+.hint-box { margin-top: 12px; padding: 10px 12px; border-left: 2px solid #dec496; border-radius: 0 6px 6px 0; color: #a08d64; background: #fcf9ef; font-size: 12px; line-height: 1.9; }
+.answer-line { display: flex; flex-wrap: wrap; gap: 6px 15px; margin: 9px 0; overflow-wrap: anywhere; font-family: ui-monospace, SFMono-Regular, monospace; }
+.solution-note { margin-top: 8px !important; color: #849474; }
+.module-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 9px; margin-top: 2px; color: #728962; font-size: 12px; }
+.notes-panel { margin-top: 22px; padding: 19px 21px; border: 1px solid #e0e6d7; border-radius: 12px; background: #f0f3e9; }
+.notes-panel label { display: block; margin-bottom: 12px; }
+.notes-panel label strong { display: block; margin: 0 0 4px; color: #567346; font-size: 13px; font-weight: 600; }
+.notes-panel label span { display: block; color: #7b9069; font-size: 12px; }
+.notes-panel textarea { display: block; width: 100%; min-height: 97px; resize: vertical; padding: 12px; border: 1px solid #dee6d3; border-radius: 7px; background: #fbfcf8; color: #5c7450; font-size: 13px; line-height: 1.9; }
+.notes-panel textarea::placeholder { color: #b1bba3; }
+.empty-state { padding: 65px 20px; border: 1px dashed #d2ddc7; border-radius: 13px; color: #8d9d7d; text-align: center; }
+.empty-state h3 { color: #587347; font-weight: 600; }
+.bottom-nav { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 24px; padding-top: 21px; border-top: 1px solid #e0e6d6; }
+.bottom-nav > span { color: #91a17f; font: 11px ui-monospace, SFMono-Regular, monospace; }
+.page-footer { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 32px; padding-top: 19px; border-top: 1px solid #e0e6d6; color: #7c8f6a; font-size: 11px; }
+.modal { width: min(640px, calc(100vw - 34px)); max-height: 85vh; padding: 0; border: 1px solid #d5dfcb; border-radius: 16px; box-shadow: 0 24px 100px #102d2930; color: var(--ink); background: #fbfcf8; }
+.modal::backdrop { background: #18372e66; backdrop-filter: blur(4px); }
+.modal-head { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 23px 26px 18px; border-bottom: 1px solid var(--line); }
+.modal-head h2 { margin: 0; font-size: 20px; font-weight: 650; color: #36592e; }
+.modal-body { padding: 22px 26px; overflow-y: auto; }
+.modal-body p { color: #6b835a; font-size: 13px; line-height: 1.95; }
+.modal-footer { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; padding: 16px 26px; border-top: 1px solid var(--line); }
+.overview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.overview-card { padding: 16px; border: 1px solid #e0e7d5; border-radius: 10px; background: white; text-align: left; }
+.overview-card:hover { border-color: #9bb585; background: #f6f9f1; }
+.overview-card strong { display: block; margin: 3px 0 5px; color: #547746; font-size: 13px; font-weight: 600; }
+.overview-card span { color: #91a180; font: 10px ui-monospace, SFMono-Regular, monospace; }
+.overview-card small { display: block; margin-bottom: 12px; color: #7b9069; font-size: 11px; }
+.record-name { display: block; margin-top: 22px; color: #6a8358; font-size: 13px; }
+.record-name input { display: block; width: 100%; margin-top: 8px; padding: 9px 12px; border: 1px solid #d6e0cd; border-radius: 7px; background: white; color: #456436; font-size: 13px; }
+.record-name input::placeholder { color: #94a584; }
+.modal-body .storage-note { color: #8c9d7a; font-size: 12px; }
+.reference-grid { display: grid; gap: 10px; }
+.reference-item { padding: 12px 15px; border: 1px solid #e2e8d9; border-radius: 8px; background: white; }
+.reference-item strong { color: #5c7a4b; font-size: 12px; }
+.reference-item h3 { margin: 3px 0 13px; color: #3d622f; font-size: 16px; font-weight: 600; }
+.reference-item h4 { margin: 15px 0 3px; color: #5f7c4d; font-size: 13px; }
+.reference-item p { margin: 5px 0 0; line-height: 1.9; }
+.reference-item pre { overflow-x: auto; margin: 10px 0 0; padding: 12px; border-radius: 6px; background: #edf3e5; font: 12px/1.8 ui-monospace, SFMono-Regular, monospace; }
+.reference-item code { color: #5e7c4c; background: #f0f4e9; padding: 2px 5px; border-radius: 3px; }
+.reset-warning { padding: 14px; border: 1px solid #f0dfbf; border-radius: 8px; background: #fcf5e9; color: #a48251; font-size: 12px; }
+.toast { position: fixed; z-index: 100; bottom: 26px; left: calc(50% + 123px); max-width: calc(100vw - 32px); padding: 11px 19px; border: 1px solid #395c3b; border-radius: 9px; background: #234837; color: #e8f2df; box-shadow: 0 6px 30px #173b2420; transform: translateX(-50%); font-size: 12px; }
+.mobile-scrim { display: none; }
+[hidden] { display: none !important; }
+@media (min-width: 1655px) { .main { margin-right: auto; margin-left: 246px; } }
+@media (max-width: 1190px) {
+  .main { padding-right: 28px; padding-left: 28px; }
+  .lesson-layout { grid-template-columns: 220px minmax(0, 1fr); gap: 16px; }
+  .question-card { padding: 19px 18px 17px; }
+  .hero { padding: 29px; }
+  .hero-decoration { width: 300px; flex-basis: 300px; }
+  .code-orbit { width: 290px; }
+  .hero-title { font-size: 28px; }
+  .hero-description { max-width: 370px; }
+  .top-actions { gap: 6px; }
+  .icon-button { padding: 6px 8px; }
+}
+@media (max-width: 1100px) { .hero-decoration { display: none; } }
+@media (max-width: 1020px) {
+  .sidebar { width: 220px; padding-left: 16px; padding-right: 16px; }
+  .main { margin-left: 220px; padding: 0 24px 20px; }
+  .lesson-layout { grid-template-columns: minmax(0, 1fr); }
+  .concept-panel { grid-column: 1; grid-row: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 18px; padding: 16px 18px 8px; }
+  .concept-panel > h3, .concept-panel > .panel-kicker, .concept-lead, .learning-tip { grid-column: 1 / -1; }
+  .exercise-panel { grid-column: 1; grid-row: 2; }
+  .hero-decoration { display: none; }
+  .hero-description { max-width: 100%; }
+  .topbar { min-height: 75px; }
+  .breadcrumbs { font-size: 11px; gap: 6px; }
+  .top-actions .button { padding-left: 8px; padding-right: 8px; }
+  .toast { left: calc(50% + 110px); }
+}
+@media (max-width: 760px) {
+  .sidebar { width: 246px; transform: translateX(-100%); transition: transform .22s; box-shadow: 10px 0 40px #1a3b2d15; }
+  .sidebar.is-open { transform: translateX(0); }
+  body.nav-open { overflow: hidden; }
+  .mobile-scrim:not([hidden]) { display: block; position: fixed; inset: 0; z-index: 25; width: 100%; height: 100%; border: 0; background: #16382b55; }
+  .main { margin-left: 0; padding: 0 24px 22px; }
+  .topbar { min-height: 72px; gap: 12px; }
+  .mobile-toggle { display: grid; flex: 0 0 32px; place-items: center; width: 32px; height: 32px; padding: 0; border: 1px solid #dce4d2; border-radius: 7px; background: #fcfdf9; color: #738969; }
+  .breadcrumbs { flex: 1; gap: 7px; }
+  .top-actions { gap: 5px; }
+  .icon-button { font-size: 20px; }
+  .hero { min-height: 244px; padding: 26px; }
+  .hero-title { font-size: 29px; }
+  .workspace-bar { margin-top: 22px; margin-bottom: 25px; }
+  .toast { left: 50%; }
+}
+@media (max-width: 480px) {
+  .main { padding: 0 17px 18px; }
+  .topbar { min-height: 65px; gap: 9px; flex-wrap: wrap; padding: 13px 0; }
+  .breadcrumbs { font-size: 11px; white-space: nowrap; flex: 1 0 100%; }
+  .breadcrumbs > span:first-of-type { display: none; }
+  .breadcrumbs > .breadcrumb-divider { display: none; }
+  .top-actions { width: 100%; justify-content: flex-end; gap: 4px; }
+  .top-actions .button { min-height: 30px; padding: 5px 10px; font-size: 12px; }
+  .icon-button { width: 32px; height: 32px; padding: 0; font-size: 20px; gap: 0; }
+  .icon-button svg { width: 14px; height: 14px; }
+  .hero { min-height: 239px; padding: 23px 22px; border-radius: 12px; }
+  .eyebrow { margin-bottom: 10px; font-size: 9px; letter-spacing: 1.5px; }
+  .hero-title { max-width: 280px; font-size: 27px; line-height: 1.5; letter-spacing: -.6px; }
+  .hero-description { font-size: 12px; line-height: 1.95; }
+  .hero-stats { margin-top: 22px; }
+  .stat { min-width: 65px; padding-right: 19px; margin-right: 19px; }
+  .stat strong { font-size: 18px; }
+  .stat span { font-size: 10px; }
+  .workspace-bar { align-items: stretch; flex-direction: column; gap: 10px; margin: 18px 0 23px; }
+  .search-wrap { flex-basis: auto; }
+  .filter-pills { gap: 4px; }
+  .filter-pill { flex: 1; padding: 6px 8px; text-align: center; }
+  .module-intro { gap: 10px; margin-bottom: 14px; }
+  .module-number { flex-basis: 32px; height: 32px; font-size: 12px; border-radius: 8px; }
+  .module-heading h2 { font-size: 19px; }
+  .module-heading p { font-size: 12px; }
+  .source-tag { display: none; }
+  .module-progress { margin-bottom: 19px; }
+  .concept-panel { grid-template-columns: 1fr; padding: 16px 16px 7px; }
+  .concept-panel h3 { margin-bottom: 10px; }
+  .concept { padding: 11px 0; }
+  .concept p { font-size: 12px; }
+  .question-card { margin-bottom: 14px; padding: 17px 15px 15px; border-radius: 11px; }
+  .question-heading { gap: 7px; }
+  .question-title { font-size: 14px; }
+  .status-pill { padding: 2px 5px; font-size: 10px; }
+  .question-prompt { margin-top: 11px; font-size: 13px; }
+  .code-template { padding: 13px 12px; font-size: 13px; line-height: 2.7; }
+  .blank-input { height: 27px; font-size: 13px; width: 78px; }
+  .question-actions { gap: 5px; }
+  .button { min-height: 35px; padding: 7px 11px; font-size: 12px; }
+  .hint-toggle { padding-left: 6px; padding-right: 6px; }
+  .notes-panel { padding: 16px; }
+  .bottom-nav { margin-top: 20px; padding-top: 18px; }
+  .page-footer { align-items: flex-start; flex-direction: column; gap: 4px; margin-top: 27px; padding-top: 16px; }
+  .modal-head { padding: 19px 20px 15px; }
+  .modal-head h2 { font-size: 18px; }
+  .modal-body { padding: 18px 20px; }
+  .modal-footer { padding: 14px 20px; }
+  .overview-card { padding: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+@media print {
+  :root { color: #000; background: #fff; }
+  body, .main { background: white; }
+  .sidebar, .topbar, .workspace-bar, .question-actions, .module-footer, .bottom-nav, .page-footer, .toast, .mobile-scrim, .modal, .hero-decoration { display: none !important; }
+  .main { max-width: none; margin: 0; padding: 0; }
+  .hero { min-height: 0; padding: 20px; background: #f2f5ee !important; color: #193f37; border: 1px solid #bbc8b1; }
+  .hero-title, .hero-description, .eyebrow, .stat strong, .stat span { color: #244b30 !important; }
+  .hero-stats { margin-top: 15px; }
+  #learning-content { margin-top: 25px; }
+  .lesson-layout { display: block; }
+  .concept-panel { display: none; }
+  .question-card, .notes-panel { break-inside: avoid; box-shadow: none; }
+  .code-window, .code-title { background: #f3f6ef !important; border-color: #c6d0bd; }
+  .code-template { color: #264d2f; white-space: pre-wrap; overflow: visible; }
+  .blank-input { background: #fff !important; color: #193f37 !important; border-color: #a7b69a !important; }
+  .notes-panel textarea { min-height: 120px; }
+}
+/* Keep the complete learning path easy to scan in a compact side panel. */
+.module-nav-item { padding: 10px 8px; gap: 8px; }
+.nav-index { flex-basis: 23px; height: 24px; }
+.nav-copy strong, .nav-copy small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav-copy strong { font-size: 12px; }
+.nav-copy small { font-size: 10px; }
+.nav-status { min-width: 24px; font-size: 10px; }
+.sidebar .course-label { margin: 22px 0; }
+.sidebar-bottom { padding-top: 22px; }
+.code-title { flex-wrap: wrap; }
+.source-tag { white-space: normal; text-align: right; }
+@media (max-width:480px) {
+  .nav-copy strong { font-size: 13px; }
+  .nav-copy small { font-size: 11px; }
+  .top-actions .button { font-size: 11px; padding: 5px 6px; }
+  .breadcrumbs > span { display: none; }
+  .breadcrumbs > strong { display: none; }
+  .mobile-toggle { display: grid !important; font-size: 19px !important; }
+  .question-actions .button { min-height: 36px; }
+  .page-footer .button { align-self: flex-start; }
+}
+@media (max-width:480px) {
+  .topbar { flex-wrap: nowrap; }
+  .breadcrumbs { flex: 0 0 auto; }
+  .top-actions { width: auto; margin-left: auto; }
+}
+
+
+/* In-chapter view: drawer navigation keeps the code readable at textbook widths. */
+.workbook-embedded .hero { display: none; }
+.workbook-embedded .main { max-width: none; margin-left: 0; padding: 0 20px 20px; }
+.workbook-embedded .sidebar { width: 246px; transform: translateX(-100%); transition: transform .22s; }
+.workbook-embedded .sidebar.is-open { transform: translateX(0); }
+.workbook-embedded .mobile-scrim:not([hidden]) { display: block; position: fixed; inset: 0; z-index: 25; border: 0; background: #16382b55; }
+.workbook-embedded .topbar { position: sticky; top: 0; z-index: 15; min-height: 62px; padding: 10px 0; flex-wrap: nowrap; background: var(--paper); border-bottom: 1px solid var(--line); }
+.workbook-embedded .breadcrumbs { display: flex; flex: 0 0 auto; }
+.workbook-embedded .breadcrumbs > span, .workbook-embedded .breadcrumbs > strong { display: none; }
+.workbook-embedded .mobile-toggle { display: grid !important; font-size: 18px !important; }
+.workbook-embedded .top-actions { width: auto; margin-left: auto; }
+.workbook-embedded .top-actions .button { font-size: 12px; }
+.workbook-embedded .workspace-bar { margin: 18px 0 22px; }
+.workbook-embedded .lesson-layout { grid-template-columns: minmax(0, 1fr); }
+.workbook-embedded .concept-panel { grid-column: 1; grid-row: 1; display: block; }
+.workbook-embedded .exercise-panel { grid-column: 1; grid-row: 2; }
+.workbook-embedded .toast { left: 50%; }
+@media (max-width: 600px) {
+  .workbook-embedded .main { padding: 0 14px 18px; }
+  .workbook-embedded .workspace-bar { flex-direction: column; align-items: stretch; gap: 10px; }
+  .workbook-embedded .search-wrap { flex-basis: auto; }
+  .workbook-embedded .filter-pill { flex: 1; padding: 7px 6px; }
+  .workbook-embedded .top-actions .button { padding: 5px 6px; font-size: 11px; }
+}
+
+</style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="学习单元导航">
+      <a class="brand" href="#setup" aria-label="Python 基础互动学习手册首页"><span class="brand-mark">Py<span>.</span></span><span>Python 基础<strong>互动学习手册</strong></span></a>
+      <div class="course-label">人工智能分析化学<span>从读懂代码，到自己填写。</span></div>
+      <div class="nav-section-label">学习路径 <span id="nav-count">10 个单元</span></div>
+      <nav id="module-nav"></nav>
+      <div class="sidebar-bottom"><div class="save-status"><span class="save-dot"></span><span id="save-label">进度保存在当前浏览器</span></div><button class="button ghost small" id="reset-open">重新开始学习</button></div>
+    </aside>
+    <button class="mobile-scrim" id="mobile-scrim" aria-label="收起目录" hidden></button>
+    <main class="main" id="main">
+      <header class="topbar"><div class="breadcrumbs"><button class="mobile-toggle icon-button" id="mobile-toggle" aria-label="展开学习目录" aria-expanded="false">☰</button><span>课程工作台</span><span class="breadcrumb-divider">/</span><strong>Python 基础</strong></div><div class="top-actions"><button class="button ghost small" id="reference-open">知识速查</button><button class="button ghost small" id="overview-open">学习概览</button><button class="button small export-button" id="export">导出记录 <span aria-hidden="true">↗</span></button></div></header>
+      <section class="hero" aria-labelledby="page-title"><div class="hero-copy"><div class="eyebrow"><span class="eyebrow-dot"></span> LEARN BY FILLING IN</div><h1 class="hero-title" id="page-title">把 Python 基础，<br>一点点填进脑海。</h1><p class="hero-description">从一行代码开始，用分析化学中的小问题练习。<br>先理解，再填写，随时检查自己的答案。</p><div class="hero-stats"><div class="stat"><strong id="stat-modules">10</strong><span>学习单元</span></div><div class="stat"><strong id="stat-total">54</strong><span>精选练习</span></div><div class="stat"><strong id="stat-completed">0</strong><span>独立答对</span></div></div></div><div class="hero-decoration" aria-hidden="true"><div class="hero-badge">每一次填写，都是一次理解</div><div class="code-orbit"><div class="mini-window-dots"><i></i><i></i><i></i><span>first_step.py</span></div><pre><span class="syntax-comment"># 今天，开始写一点 Python</span>
+<span class="syntax-green">import</span> numpy <span class="syntax-green">as</span> np
+
+signal = [<span class="syntax-amber">0.12, 0.24, 0.36</span>]
+mean = np.<span class="hero-code-blank">mean</span>(signal)
+<span class="syntax-green">print</span>(mean)</pre><div class="mini-result"><span>↳</span> 0.24 <span class="result-check">✓</span></div></div><span class="decoration-caption">理解代码，也理解数据。</span></div></section>
+      <section class="workspace-bar" aria-label="查找和筛选练习"><label class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="查找知识点，如：切片、缺失值…" aria-label="查找所有单元的知识点"></label><div class="filter-pills" role="group" aria-label="练习筛选"><button class="filter-pill active" data-filter="all" aria-pressed="true">全部练习</button><button class="filter-pill" data-filter="todo" aria-pressed="false">待掌握 <span id="todo-count"></span></button><button class="filter-pill" data-filter="wrong" aria-pressed="false">错题重练 <span id="wrong-count"></span></button></div></section>
+      <div id="learning-content" aria-live="polite"><p>正在整理学习内容…</p></div>
+      <footer class="page-footer"><span>根据《人工智能分析化学》Python 部分整理 · Python 3</span><button class="button ghost small" id="sources-open">内容来源与使用说明 ↗</button></footer>
+    </main>
+  </div>
+  <dialog class="modal" id="overview-dialog" aria-labelledby="overview-title"><div class="modal-head"><div><span class="panel-kicker">YOUR LEARNING</span><h2 id="overview-title">每一步，都算数。</h2></div><button class="icon-button" data-close aria-label="关闭学习概览">×</button></div><div class="modal-body" id="overview-body"></div><div class="modal-footer"><button class="button primary" data-close>继续学习</button></div></dialog>
+  <dialog class="modal reference-modal" id="reference-dialog" aria-labelledby="reference-title"><div class="modal-head"><div><span class="panel-kicker">QUICK REFERENCE</span><h2 id="reference-title">Python 知识速查</h2></div><button class="icon-button" data-close aria-label="关闭知识速查">×</button></div><div class="modal-body" id="reference-body"></div></dialog>
+  <dialog class="modal" id="reset-dialog" aria-labelledby="reset-title"><div class="modal-head"><h2 id="reset-title">重新开始学习？</h2><button class="icon-button" data-close aria-label="取消">×</button></div><div class="modal-body"><p class="reset-warning">这会清空当前浏览器中的所有填写内容、答题记录和学习笔记。建议先导出记录。</p></div><div class="modal-footer"><button class="button ghost" data-close>保留进度</button><button class="button primary" id="reset-confirm">清空并重新开始</button></div></dialog>
+  <dialog class="modal" id="sources-dialog" aria-labelledby="sources-title"><div class="modal-head"><h2 id="sources-title">内容来源与使用说明</h2><button class="icon-button" data-close aria-label="关闭说明">×</button></div><div class="modal-body"><p>内容依据马昊《人工智能分析化学》（2026 年 10 月）课件的 Python 部分，精选基础语法、NumPy、Pandas、数据清洗及绘图知识。每个单元和练习均标注对应 PPT 页码，例题按学习需要改编。</p><p>练习采用 Python 3 语义，并校正了原课件中浮点精度、整除、空集合、字典顺序及部分旧版库接口等表述。安装界面和完整 API 参数表未逐页搬入。</p><p><strong>填写与校验：</strong>网页按参考答案检查填空，不执行 Python 代码。可查看提示、答案与解析；查看答案的练习单独标记，重新独立填写并校验后才能计入“独立答对”。</p><p><strong>学习记录：</strong>自动保存在当前设备、当前浏览器中，不会同步到其他设备，也不会上传填写内容。可导出 Markdown 记录；浏览器无痕模式或清理站点数据可能导致记录丢失。</p><p><strong>官方参考：</strong><a href="https://docs.python.org/zh-cn/3/tutorial/" target="_blank" rel="noopener">Python 教程</a> · <a href="https://numpy.org/doc/stable/user/quickstart.html" target="_blank" rel="noopener">NumPy</a> · <a href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html" target="_blank" rel="noopener">Pandas</a> · <a href="https://matplotlib.org/stable/users/explain/quick_start.html" target="_blank" rel="noopener">Matplotlib</a> · <a href="https://seaborn.pydata.org/generated/seaborn.histplot.html" target="_blank" rel="noopener">Seaborn</a></p></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <noscript><p>请启用浏览器 JavaScript 以使用互动填写和自动保存功能。</p></noscript>
+<script>
+window.COURSE = [
+  {
+    "id": "setup",
+    "title": "起步与代码规范",
+    "subtitle": "让实验脚本顺利启动",
+    "icon": "terminal",
+    "source": "PPT 54–79",
+    "duration": "6 分钟",
+    "concepts": [
+      {
+        "title": "解释器、脚本与环境",
+        "body": "Python 解释器执行代码；.py 文件保存脚本。在终端运行命令，在 Python 提示符中写 Python 代码。不同电脑可能使用 python、python3 或 py 命令；要让安装包和运行脚本使用同一个解释器。",
+        "code": "python assay.py\npython -m pip list"
+      },
+      {
+        "title": "用 pip 管理依赖",
+        "body": "python -m pip 表示用当前 Python 解释器运行 pip 模块；-m 不是“手工安装”。install 安装，list 查看，uninstall 卸载，--upgrade 升级，== 指定版本。课件第 67 页的单个 = 与缺空格的升级命令应更正。",
+        "code": "python -m pip install numpy\npython -m pip install --upgrade numpy\n# 固定版本时：包名==版本号"
+      },
+      {
+        "title": "缩进就是代码结构",
+        "body": "if、for、while、def、with 等语句头以冒号结束，块内统一缩进，通常每级 4 个空格。不要混用 Tab 和空格；多字符运算符 ==、+= 内部不能拆开，运算符两侧通常加空格。",
+        "code": "if absorbance > 1.0:\n    print(\"需要稀释\")"
+      },
+      {
+        "title": "注释与可读性",
+        "body": "用 # 说明目的、单位或原因；不必追求固定注释比例。单引号和双引号都能定义字符串。优先用括号为长表达式换行，保持变量名清楚。",
+        "code": "volume_ml = 10.0  # 定容体积，单位 mL"
+      }
+    ],
+    "questions": [
+      {
+        "id": "setup-run",
+        "title": "运行实验脚本",
+        "prompt": "在终端中运行当前目录下的 assay.py，补全 Python 命令。",
+        "code": "{{0}} assay.py",
+        "blanks": [
+          {
+            "answer": "python",
+            "hint": "填写解释器命令；python3 也可以。",
+            "accept": [
+              "python3",
+              "py"
+            ]
+          }
+        ],
+        "explanation": "终端把 assay.py 交给指定的 Python 解释器执行。脚本路径含空格时需要加引号。",
+        "source": "PPT 第 62 页"
+      },
+      {
+        "id": "setup-pip",
+        "title": "把包装到正确的环境",
+        "prompt": "用当前 Python 解释器调用 pip，安装 numpy。",
+        "code": "python {{0}} pip {{1}} numpy",
+        "blanks": [
+          {
+            "answer": "-m",
+            "hint": "这个选项让 Python 按模块运行 pip。"
+          },
+          {
+            "answer": "install",
+            "hint": "pip 用什么子命令安装软件包？"
+          }
+        ],
+        "explanation": "python -m pip install numpy 将 pip 与当前解释器绑定，减少“安装了却无法导入”的环境错配。",
+        "source": "PPT 第 65–68 页"
+      },
+      {
+        "id": "setup-version",
+        "title": "识别版本固定语法",
+        "prompt": "补全 pip 的版本约束运算符。这里用占位名称表示包名与版本号，无须实际执行。",
+        "code": "python -m pip install \"包名{{0}}版本号\"",
+        "blanks": [
+          {
+            "answer": "==",
+            "hint": "版本相等需要两个等号。"
+          }
+        ],
+        "explanation": "pip 固定版本写作 包名==版本号；课件第 67 页的 numpy=1.18.2 应改成 numpy==1.18.2。",
+        "source": "PPT 第 67 页"
+      },
+      {
+        "id": "setup-indent",
+        "title": "数清一个缩进层级",
+        "prompt": "按照常用规范，print 前面应有几个空格？",
+        "code": "if concentration > 10:\n    print(\"稀释样品\")\n# 一个缩进层级：{{0}} 个空格",
+        "blanks": [
+          {
+            "answer": "4",
+            "hint": "Python 常用规范推荐每级四个空格。",
+            "kind": "number"
+          }
+        ],
+        "explanation": "缩进把 print 放入 if 语句块。4 个空格是规范推荐；同一代码块缩进一致才是语法要求。",
+        "source": "PPT 第 72、78 页"
+      },
+      {
+        "id": "setup-comment",
+        "title": "为实验单位写注释",
+        "prompt": "补全单行注释符号，让代码说明体积的单位。",
+        "code": "volume = 10.0  {{0}} 单位：mL",
+        "blanks": [
+          {
+            "answer": "#",
+            "hint": "井号后面的内容是单行注释。"
+          }
+        ],
+        "explanation": "# 之后到行末是注释，不会作为 Python 代码执行。单位注释有助于避免实验数据混用。",
+        "source": "PPT 第 79 页"
+      }
+    ]
+  },
+  {
+    "id": "types",
+    "title": "变量、数字与字符串",
+    "subtitle": "给实验数据合适的类型",
+    "icon": "braces",
+    "source": "PPT 49–53、81–93",
+    "duration": "8 分钟",
+    "concepts": [
+      {
+        "title": "变量保存对象的引用",
+        "body": "= 是赋值，== 是比较。int 表示整数，float 表示浮点数，str 表示文本，bool 表示 True 或 False。input() 返回字符串，参与计算前通常需 float() 或 int() 转换。",
+        "code": "raw = \"2.50\"\nconcentration = float(raw)\nvalid = concentration > 0"
+      },
+      {
+        "title": "运算符有明确含义",
+        "body": "/ 是除法，** 是乘方，% 是取余；// 是向负无穷取整，所以 -3 // 2 等于 -2，并非简单去掉小数。条件判断常用 ==、!=、<、<=、>、>=，组合条件用 and、or、not。",
+        "code": "print(5 / 2)    # 2.5\nprint(-3 // 2)  # -2\nprint(10 ** 3)  # 1000"
+      },
+      {
+        "title": "纠错：float 的精度有限",
+        "body": "课件第 49 页把 float 说成“精度无限制”不准确。常见 Python float 约有 15–17 位十进制有效数字；约 10^308 描述数量级范围。0.1 不能用二进制浮点精确表示，比较计算结果时需按问题设置容差。Python int 则支持任意精度，受内存限制。",
+        "code": "import math\nprint(0.1 + 0.2 == 0.3)          # False\nprint(math.isclose(0.1 + 0.2, 0.3))  # True"
+      },
+      {
+        "title": "字符串：不可变、可处理、可格式化",
+        "body": "字符串不能原地改字符；replace() 返回新字符串。split() 拆分文本，join() 连接字符串序列。f 字符串把变量放进花括号，:.2f 表示保留两位小数；显示位数不会提高原始数据精度。",
+        "code": "label = \"Na,Cl\".split(\",\")\nprint(\" / \".join(label))\nabsorbance = 0.1267\nprint(f\"A = {absorbance:.2f}\")"
+      }
+    ],
+    "questions": [
+      {
+        "id": "types-convert",
+        "title": "把文本浓度转成数字",
+        "prompt": "把仪器读入的字符串 \"2.50\" 转成浮点数，并填写计算结果。",
+        "code": "raw = \"2.50\"\nc = {{0}}(raw)\nprint(c * 2)  # {{1}}",
+        "blanks": [
+          {
+            "answer": "float",
+            "hint": "需要能保留小数部分的数值转换函数。"
+          },
+          {
+            "answer": "5.0",
+            "hint": "2.50 乘以 2。",
+            "kind": "number"
+          }
+        ],
+        "explanation": "float(\"2.50\") 得到 2.5；数字乘法得到 5.0。字符串直接乘 2 则会重复文本。",
+        "source": "PPT 第 49、82 页"
+      },
+      {
+        "id": "types-operators",
+        "title": "乘方与负数整除",
+        "prompt": "填写两行代码的输出。留意 // 的取整方向。",
+        "code": "print(10 ** 3)  # {{0}}\nprint(-3 // 2)  # {{1}}",
+        "blanks": [
+          {
+            "answer": "1000",
+            "hint": "** 表示乘方。",
+            "kind": "number"
+          },
+          {
+            "answer": "-2",
+            "hint": "-1.5 向负无穷取整。",
+            "kind": "number"
+          }
+        ],
+        "explanation": "10 ** 3 是 1000；-3 // 2 为 -2。// 的正确含义是向下取整，课件的“不保留小数部分”对负数描述不充分。",
+        "source": "PPT 第 51 页"
+      },
+      {
+        "id": "types-bool",
+        "title": "判断有效的 pH 范围",
+        "prompt": "要求 pH 同时大于等于 0、小于等于 14。补全逻辑词和比较符号。",
+        "code": "pH = 7.2\nvalid = (pH >= 0) {{0}} (pH {{1}} 14)\nprint(valid)  # True",
+        "blanks": [
+          {
+            "answer": "and",
+            "hint": "两个条件都需要成立。"
+          },
+          {
+            "answer": "<=",
+            "hint": "“小于等于”的 Python 运算符。"
+          }
+        ],
+        "explanation": "and 要求两边都为真；<= 把边界 14 也纳入范围。注意变量区分大小写。",
+        "source": "PPT 第 51–52 页"
+      },
+      {
+        "id": "types-float",
+        "title": "用容差比较浮点数",
+        "prompt": "补全 math 中用于接近比较的函数名，让结果为 True。",
+        "code": "import math\nprint(math.{{0}}(0.1 + 0.2, 0.3))",
+        "blanks": [
+          {
+            "answer": "isclose",
+            "hint": "函数名意为“是否足够接近”。"
+          }
+        ],
+        "explanation": "math.isclose() 按相对和绝对容差判断接近程度。这里避免直接用 == 比较二进制浮点运算的结果；实际测量数据应根据实验精度选容差。",
+        "source": "PPT 第 82 页"
+      },
+      {
+        "id": "types-text",
+        "title": "整理实验报告文本",
+        "prompt": "把吸光度显示为两位小数，并按逗号拆分离子名称。填格式说明符与方法名。",
+        "code": "A = 0.1267\nprint(f\"吸光度：{A:{{0}}}\")  # 吸光度：0.13\nions = \"Na,Cl\".{{1}}(\",\")",
+        "blanks": [
+          {
+            "answer": ".2f",
+            "hint": "f 表示定点显示，前面指定小数位数。",
+            "kind": "literal"
+          },
+          {
+            "answer": "split",
+            "hint": "把一个字符串按分隔符拆成列表。"
+          }
+        ],
+        "explanation": "f\"{A:.2f}\" 控制显示格式；split(\",\") 得到 [\"Na\", \"Cl\"]。字符串处理返回新对象。",
+        "source": "PPT 第 89、92 页"
+      }
+    ]
+  },
+  {
+    "id": "containers",
+    "title": "索引、列表与映射",
+    "subtitle": "组织一组测量值和样品信息",
+    "icon": "layers",
+    "source": "PPT 83–85、94–114",
+    "duration": "9 分钟",
+    "concepts": [
+      {
+        "title": "索引从 0 开始，切片左闭右开",
+        "body": "序列第一个元素的索引是 0，最后一个是 -1。seq[start:stop:step] 包含 start、不包含 stop；省略端点可取到边界。字符串、列表、元组都支持这套规则。",
+        "code": "signal = [10, 20, 30, 40]\nprint(signal[0], signal[-1])  # 10 40\nprint(signal[1:3])           # [20, 30]"
+      },
+      {
+        "title": "列表可改，元组不可原地改元素",
+        "body": "list 用 []，可修改、append 单个元素、extend 一个可迭代对象中的多个元素、pop 按位置取出并删除。tuple 常用于一组固定信息；单元素元组要写 (value,)。len、sum、min、max 是常用内置函数。",
+        "code": "values = [0.1, 0.2]\nvalues.append(0.3)\nvalues.extend([0.4, 0.5])\npoint = (532,)  # 单元素元组"
+      },
+      {
+        "title": "赋值不是复制",
+        "body": "b = a 只让两个名字引用同一个列表。a.copy() 或 a[:] 创建浅拷贝，一维数字列表可以独立修改；嵌套对象仍然共享，若需递归独立复制，应考虑 copy.deepcopy。课件第 100 页展示的是别名赋值。",
+        "code": "a = [0.1, 0.2]\nb = a.copy()\nb[0] = 9.9\nprint(a[0])  # 0.1"
+      },
+      {
+        "title": "纠错：字典保留插入顺序",
+        "body": "字典通过键访问值，同一键再次赋值会覆盖旧值。Python 3.7+ 保证 dict 的插入顺序，因此课件“字典没有顺序”应更新；保留顺序也不意味着可以像列表那样按位置索引。get(key, default) 可为缺失键提供默认值。",
+        "code": "sample = {\"id\": \"S01\", \"pH\": 7.0}\nprint(sample[\"pH\"])\nprint(sample.get(\"batch\", \"未知\"))"
+      },
+      {
+        "title": "纠错：空集合用 set()",
+        "body": "{} 创建空字典，set() 才创建空集合。集合去重且不提供位置顺序；元素需可哈希，变量的值当然可以加入。&、|、- 分别计算交集、并集、差集；集合 pop() 删除一个任意元素，并不承诺随机抽样。",
+        "code": "ions = set([\"Na\", \"Cl\", \"Na\"])\nprint(len(ions))  # 2\ncommon = {\"Na\", \"Cl\"} & {\"Na\", \"K\"}"
+      }
+    ],
+    "questions": [
+      {
+        "id": "containers-slice",
+        "title": "从光谱中截取一段",
+        "prompt": "填入索引，让两行分别输出 10 和 [20, 30]。",
+        "code": "signal = [10, 20, 30, 40]\nprint(signal[{{0}}])\nprint(signal[{{1}}:3])",
+        "blanks": [
+          {
+            "answer": "0",
+            "hint": "第一个元素的索引从零开始。"
+          },
+          {
+            "answer": "1",
+            "hint": "切片从第二个元素开始，终点 3 不包含。"
+          }
+        ],
+        "explanation": "signal[0] 是 10；signal[1:3] 取索引 1 和 2，得到 [20, 30]。最后一个元素也可用 signal[-1] 获取。",
+        "source": "PPT 第 84–85、94 页"
+      },
+      {
+        "id": "containers-grow",
+        "title": "添加一次和一批测量值",
+        "prompt": "先添加单个测量值，再合并一批测量值；填写列表方法。",
+        "code": "values = [0.10, 0.12]\nvalues.{{0}}(0.11)\nvalues.{{1}}([0.13, 0.14])\n# values 长度最终为 5",
+        "blanks": [
+          {
+            "answer": "append",
+            "hint": "向末尾加入一个对象。"
+          },
+          {
+            "answer": "extend",
+            "hint": "接收一个可迭代对象，逐个追加其中元素。"
+          }
+        ],
+        "explanation": "append(0.11) 加入一个数；extend([0.13, 0.14]) 加入两个数。extend 只接收一个可迭代参数，课件第 98 页给出多个位置参数的写法需修正。",
+        "source": "PPT 第 97–98 页"
+      },
+      {
+        "id": "containers-copy",
+        "title": "保留原始测量数据",
+        "prompt": "创建一维数字列表的浅拷贝，并填写原列表第一个值的输出。",
+        "code": "raw = [0.1, 0.2]\ncorrected = raw.{{0}}()\ncorrected[0] = 0.0\nprint(raw[0])  # {{1}}",
+        "blanks": [
+          {
+            "answer": "copy",
+            "hint": "列表的浅拷贝方法。"
+          },
+          {
+            "answer": "0.1",
+            "hint": "新列表的修改不会影响这个原始数字元素。",
+            "kind": "number"
+          }
+        ],
+        "explanation": "copy() 创建新的外层列表，所以 raw[0] 仍为 0.1；直接 corrected = raw 会共享同一个列表。嵌套列表浅拷贝仍共享内部对象。",
+        "source": "PPT 第 100–101 页"
+      },
+      {
+        "id": "containers-dict",
+        "title": "读取样品记录",
+        "prompt": "按键读取 pH，并在批次缺失时提供“未知”。只填键的内容和方法名，不加引号。",
+        "code": "sample = {\"id\": \"S01\", \"pH\": 7.0}\nprint(sample[\"{{0}}\"] )  # 7.0\nprint(sample.{{1}}(\"batch\", \"未知\"))",
+        "blanks": [
+          {
+            "answer": "pH",
+            "hint": "字典键区分大小写。"
+          },
+          {
+            "answer": "get",
+            "hint": "这个方法可为不存在的键返回默认值。"
+          }
+        ],
+        "explanation": "sample[\"pH\"] 按键取值。get(\"batch\", \"未知\") 在缺少 batch 时返回默认值；直接下标访问缺失键会触发 KeyError。",
+        "source": "PPT 第 106–108 页"
+      },
+      {
+        "id": "containers-set",
+        "title": "去除重复的离子名称",
+        "prompt": "用无参构造函数创建空集合，再填写去重后的元素数量。",
+        "code": "ions = {{0}}\nions.update([\"Na\", \"Cl\", \"Na\"])\nprint(len(ions))  # {{1}}",
+        "blanks": [
+          {
+            "answer": "set()",
+            "hint": "{} 是空字典；空集合要用构造函数。"
+          },
+          {
+            "answer": "2",
+            "hint": "重复的 Na 只保留一份。",
+            "kind": "number"
+          }
+        ],
+        "explanation": "set() 创建空集合；集合中只保留 Na 和 Cl 两个唯一元素。输出顺序没有保证，不适合按位置访问。",
+        "source": "PPT 第 109–111 页"
+      }
+    ]
+  },
+  {
+    "id": "flow",
+    "title": "判断与循环",
+    "subtitle": "把重复操作交给程序",
+    "icon": "loop",
+    "source": "PPT 115–132",
+    "duration": "9 分钟",
+    "concepts": [
+      {
+        "title": "if / elif / else 按条件分支",
+        "body": "if 与 elif 后要写条件和冒号，else 只有冒号。按顺序找到第一个成立分支后，就不再执行后续分支。= 用于赋值，== 用于判断相等；缩进决定每个语句属于哪个分支。",
+        "code": "if pH < 7:\n    label = \"酸性\"\nelif pH > 7:\n    label = \"碱性\"\nelse:\n    label = \"中性\""
+      },
+      {
+        "title": "for 遍历，range 不含终点",
+        "body": "for item in items 逐项取值。range(start, stop, step) 生成惰性的整数范围对象，并非列表推导式，也不直接返回列表；需要列表可用 list(range(...))。range(1, 4) 依次产生 1、2、3。",
+        "code": "total = 0\nfor value in [0.1, 0.2, 0.3]:\n    total += value"
+      },
+      {
+        "title": "while 检查条件，必须能走到终点",
+        "body": "while 每轮开始前判断条件；条件为真才继续。它不必是无限循环。通过更新计数器、改变状态或 break 确保能退出。break 结束当前循环；continue 跳过本轮剩余语句，进入下一轮。",
+        "code": "cycle = 0\nwhile cycle < 3:\n    cycle += 1"
+      },
+      {
+        "title": "列表推导式兼顾变换与筛选",
+        "body": "[表达式 for 变量 in 序列 if 条件] 先逐项取值，再按条件筛选并计算表达式，返回新列表。适合短小清楚的处理，复杂逻辑用普通循环更易读。",
+        "code": "positive = [x for x in [-0.1, 0.2, 0.4] if x > 0]"
+      },
+      {
+        "title": "循环 else 与素数判断的边界",
+        "body": "for / while 的 else 在循环正常结束且没有执行 break 时运行，else 后不写条件。课件第 132 页把 1 列为素数是不正确的；判断素数应先排除 n < 2。",
+        "code": "for value in values:\n    if value < 0:\n        break\nelse:\n    print(\"未发现负值\")"
+      }
+    ],
+    "questions": [
+      {
+        "id": "flow-if",
+        "title": "按 pH 给样品分类",
+        "prompt": "完善酸性、碱性、中性三分支。填写比较符号和分支关键词。",
+        "code": "pH = 6.0\nif pH {{0}} 7:\n    label = \"酸性\"\n{{1}} pH > 7:\n    label = \"碱性\"\nelse:\n    label = \"中性\"",
+        "blanks": [
+          {
+            "answer": "<",
+            "hint": "酸性 pH 小于 7。"
+          },
+          {
+            "answer": "elif",
+            "hint": "“否则，如果”的 Python 关键词。"
+          }
+        ],
+        "explanation": "pH 为 6.0 时，第一个条件成立，label 取“酸性”，后续分支不再执行。",
+        "source": "PPT 第 118–121 页"
+      },
+      {
+        "id": "flow-range",
+        "title": "做三次编号实验",
+        "prompt": "让编号依次为 1、2、3，填写循环关键词和 range 的终点。",
+        "code": "{{0}} run in range(1, {{1}}):\n    print(run)\n# 输出：1、2、3（每个一行）",
+        "blanks": [
+          {
+            "answer": "for",
+            "hint": "遍历一个整数范围使用哪种循环？"
+          },
+          {
+            "answer": "4",
+            "hint": "range 的终点不包含在内。"
+          }
+        ],
+        "explanation": "range(1, 4) 产生 1、2、3，共三轮。课件第 126 页的 range(10) 实际产生 0 到 9。",
+        "source": "PPT 第 124–126 页"
+      },
+      {
+        "id": "flow-while",
+        "title": "让采样次数有限",
+        "prompt": "补全条件循环和递增运算符，保证循环执行三次后退出。",
+        "code": "count = 0\n{{0}} count < 3:\n    count {{1}} 1\nprint(count)  # 3",
+        "blanks": [
+          {
+            "answer": "while",
+            "hint": "每次循环前检查条件的关键词。"
+          },
+          {
+            "answer": "+=",
+            "hint": "把计数器加一后赋回原变量。"
+          }
+        ],
+        "explanation": "count 依次变成 1、2、3；下一次检查 3 < 3 为 False，循环结束。遗漏更新会导致条件始终成立。",
+        "source": "PPT 第 128 页"
+      },
+      {
+        "id": "flow-controls",
+        "title": "跳过坏值，遇到标记结束",
+        "prompt": "第一个循环跳过负值；第二个循环遇到 None 就结束。填控制语句。",
+        "code": "for value in [-1, 2, 3]:\n    if value < 0:\n        {{0}}\n    print(value)  # 只输出 2、3\n\nfor value in [2, None, 3]:\n    if value is None:\n        {{1}}\n    print(value)  # 只输出 2",
+        "blanks": [
+          {
+            "answer": "continue",
+            "hint": "跳过本轮剩余代码，继续下一轮。"
+          },
+          {
+            "answer": "break",
+            "hint": "立即结束当前循环。"
+          }
+        ],
+        "explanation": "continue 不结束循环，只跳过当前负值；break 在 None 处终止循环，所以后面的 3 不会处理。",
+        "source": "PPT 第 130 页"
+      },
+      {
+        "id": "flow-comprehension",
+        "title": "筛选正吸光度",
+        "prompt": "补全列表推导式，保留严格大于 0 的读数。",
+        "code": "values = [-0.1, 0.0, 0.2, 0.4]\npositive = [x for x in values {{0}} x {{1}} 0]\n# positive 为 [0.2, 0.4]",
+        "blanks": [
+          {
+            "answer": "if",
+            "hint": "推导式中的筛选条件由什么关键词引入？"
+          },
+          {
+            "answer": ">",
+            "hint": "要求严格大于零，不包含零。"
+          }
+        ],
+        "explanation": "推导式逐个取 x，只保留 x > 0 的值。筛选结果是一份新列表，values 不会被修改。",
+        "source": "PPT 第 127 页"
+      }
+    ]
+  },
+  {
+    "id": "functions",
+    "title": "函数、参数与模块",
+    "subtitle": "把计算写成可复用的工具",
+    "icon": "function",
+    "source": "PPT 133–152",
+    "duration": "8 分钟",
+    "concepts": [
+      {
+        "title": "def 定义，return 交还结果",
+        "body": "函数名后用括号写形参，函数体缩进。调用时传入实参；return 把结果交还给调用方并结束当前调用，print 只负责显示。没有执行带值的 return 时，函数返回 None。",
+        "code": "def concentration(mass, volume):\n    return mass / volume\n\nc = concentration(2.0, 0.5)"
+      },
+      {
+        "title": "位置、关键字与默认参数",
+        "body": "位置参数按顺序对应；关键字参数明确写名字，可提高单位和意义的可读性。默认值让部分参数可省略。默认值在定义函数时求值一次；避免用可变列表作默认值，可用 None 后在函数内部创建。",
+        "code": "def dilute(c, factor=10):\n    return c / factor\n\nprint(dilute(20, factor=5))"
+      },
+      {
+        "title": "*args、**kwargs 与作用域",
+        "body": "*args 收集额外位置参数，结果是元组；**kwargs 收集额外关键字参数，结果是字典。调用时 * 与 ** 也能解包。函数内部赋值的变量通常是局部变量；优先通过参数传入数据、return 传出结果。",
+        "code": "def record(*readings, **metadata):\n    return readings, metadata\n\nrecord(0.1, 0.2, sample=\"S01\")"
+      },
+      {
+        "title": "导入模块，使用明确名称",
+        "body": "import math 后通过 math.sqrt 调用；from math import sqrt 后直接 sqrt。as 可给模块起别名。自定义 .py 文件也可成为模块，通常放在项目目录中；无需把代码复制进 Python 安装目录。",
+        "code": "import math\nprint(math.sqrt(9))\nfrom math import pi"
+      },
+      {
+        "title": "lambda 适合简短表达式",
+        "body": "lambda 参数: 表达式 创建函数并返回该表达式的值；常用于 sorted 的 key。它不需要 return。复杂流程应写普通 def 函数，闭包也并不都属于匿名函数。",
+        "code": "peaks = [(532, 20), (785, 50)]\nby_intensity = sorted(peaks, key=lambda peak: peak[1])"
+      }
+    ],
+    "questions": [
+      {
+        "id": "functions-return",
+        "title": "封装浓度计算",
+        "prompt": "补全函数定义和返回值关键词。假设 mass 单位为 mg、volume 单位为 L。",
+        "code": "{{0}} concentration(mass, volume):\n    {{1}} mass / volume\n\nprint(concentration(2.0, 0.5))  # 4.0",
+        "blanks": [
+          {
+            "answer": "def",
+            "hint": "定义一个有名字的函数。"
+          },
+          {
+            "answer": "return",
+            "hint": "把计算值交还给调用方。"
+          }
+        ],
+        "explanation": "def 建立函数；return 返回 mass / volume。用 print 替代 return 只会显示数据，调用结果仍为 None。",
+        "source": "PPT 第 133–134 页"
+      },
+      {
+        "id": "functions-params",
+        "title": "读懂默认与关键字参数",
+        "prompt": "让默认稀释倍数为 10，再用关键字指定 5 倍稀释。第二空只填参数名。",
+        "code": "def dilute(c, factor={{0}}):\n    return c / factor\n\nprint(dilute(20))           # 2.0\nprint(dilute(20, {{1}}=5))  # 4.0",
+        "blanks": [
+          {
+            "answer": "10",
+            "hint": "未传 factor 时希望除以 10。"
+          },
+          {
+            "answer": "factor",
+            "hint": "要与函数定义中的形参名一致。"
+          }
+        ],
+        "explanation": "默认参数在省略实参时生效；显式 factor=5 会使用 5 覆盖默认值。关键字拼写必须与形参一致。",
+        "source": "PPT 第 135–137 页"
+      },
+      {
+        "id": "functions-variadic",
+        "title": "收集任意数量的读数与标签",
+        "prompt": "在形参前填写星号，让 readings 收集位置参数、metadata 收集关键字参数。",
+        "code": "def record({{0}}readings, {{1}}metadata):\n    return readings, metadata\n\nrecord(0.1, 0.2, sample=\"S01\")",
+        "blanks": [
+          {
+            "answer": "*",
+            "hint": "一个星号收集额外位置参数。"
+          },
+          {
+            "answer": "**",
+            "hint": "两个星号收集额外关键字参数。"
+          }
+        ],
+        "explanation": "readings 为 (0.1, 0.2)，metadata 为 {\"sample\": \"S01\"}。课件把 *args 称作“元组关键字参数”不准确，它收集的是位置参数。",
+        "source": "PPT 第 138–141 页"
+      },
+      {
+        "id": "functions-import",
+        "title": "调用标准库平方根",
+        "prompt": "从 math 中导入 sqrt，再填写 9 的平方根。",
+        "code": "from math {{0}} sqrt\nprint(sqrt(9))  # {{1}}",
+        "blanks": [
+          {
+            "answer": "import",
+            "hint": "from 模块 … 名称的导入关键词。"
+          },
+          {
+            "answer": "3.0",
+            "hint": "sqrt 返回非负平方根。",
+            "kind": "number"
+          }
+        ],
+        "explanation": "from math import sqrt 把 sqrt 直接绑定到当前命名空间，所以可以省略 math. 前缀。标准库 math 无须额外 pip 安装。",
+        "source": "PPT 第 148 页"
+      },
+      {
+        "id": "functions-lambda",
+        "title": "按峰强度排序",
+        "prompt": "元组是（波长, 强度）。补全匿名函数关键词和强度对应的索引。",
+        "code": "peaks = [(532, 20), (785, 50), (633, 10)]\nordered = sorted(peaks, key={{0}} peak: peak[{{1}}])\n# 先后顺序：633、532、785 nm",
+        "blanks": [
+          {
+            "answer": "lambda",
+            "hint": "用于创建一个表达式函数的关键词。"
+          },
+          {
+            "answer": "1",
+            "hint": "元组第二个元素是强度，索引从零开始。"
+          }
+        ],
+        "explanation": "sorted 的 key 为每个峰返回强度；按 10、20、50 升序排序。sorted 返回新列表，peaks 本身不变。",
+        "source": "PPT 第 145、147 页"
+      }
+    ]
+  },
+  {
+    "id": "files",
+    "title": "文件读写与数据入口",
+    "subtitle": "把结果保存，把表格读进来",
+    "icon": "file",
+    "source": "PPT 153–166（含 CSV 延伸）",
+    "duration": "7 分钟",
+    "concepts": [
+      {
+        "title": "with 管理打开和关闭",
+        "body": "with open(...) as f 会在退出代码块时关闭文件，包括因异常离开的情况。文本文件建议明确 encoding=\"utf-8\"；具体编码应与文件一致。默认相对路径相对于当前工作目录，而不是自动相对于脚本。",
+        "code": "with open(\"data.txt\", \"r\", encoding=\"utf-8\") as f:\n    text = f.read()"
+      },
+      {
+        "title": "模式决定是否清空文件",
+        "body": "r 只读且文件必须存在；w 写入前会清空已有内容；a 在末尾追加，缺失时创建；x 创建新文件，已存在时报错；b 表示二进制。对原始数据写出时先确认目标路径。",
+        "code": "with open(\"results.txt\", \"a\", encoding=\"utf-8\") as f:\n    f.write(\"S01,0.123\\n\")"
+      },
+      {
+        "title": "读取全文、逐行处理、写入换行",
+        "body": "read() 返回全文字符串，readline() 读一行，readlines() 返回行列表。大文件常用 for line in f 逐行处理。write() 和 writelines() 都不会自动补换行，需自己写 \\n；splitlines() 将文本分成不带行尾符的列表。",
+        "code": "text = \"S01,0.12\\nS02,0.15\\n\"\nrows = text.splitlines()"
+      },
+      {
+        "title": "CSV 是文件读写的实用延伸",
+        "body": "结构化表格用 csv 模块处理分隔符和引号，避免简单 split(\",\") 误拆带逗号的字段。打开 CSV 时用 newline=\"\"；DictReader 按表头提供键值。读入字段通常仍是字符串，计算前需转换。此例是对课件文件读写的延伸。",
+        "code": "import csv\nwith open(\"samples.csv\", newline=\"\", encoding=\"utf-8\") as f:\n    for row in csv.DictReader(f):\n        c = float(row[\"concentration\"])"
+      },
+      {
+        "title": "定位不是简单的“第几个字符”",
+        "body": "tell() 不接收位置参数；seek() 可移动文件位置。二进制流偏移按字节计算；文本流位置可能是不可直接解释的标记，不能把任意 seek(n) 当作第 n 个中文字符。常规表格优先顺序读取。",
+        "code": "with open(\"data.txt\", encoding=\"utf-8\") as f:\n    start = f.tell()\n    first_line = f.readline()\n    f.seek(start)"
+      }
+    ],
+    "questions": [
+      {
+        "id": "files-context",
+        "title": "安全读取 UTF-8 文本",
+        "prompt": "补全上下文管理关键词和编码名称。第二空不加引号。",
+        "code": "{{0}} open(\"samples.txt\", \"r\", encoding=\"{{1}}\") as f:\n    text = f.read()",
+        "blanks": [
+          {
+            "answer": "with",
+            "hint": "退出代码块时自动关闭文件的语句。"
+          },
+          {
+            "answer": "utf-8",
+            "hint": "常用的 Unicode 文本编码。",
+            "accept": [
+              "utf8",
+              "UTF-8",
+              "UTF8"
+            ],
+            "kind": "literal"
+          }
+        ],
+        "explanation": "with 在代码块退出时关闭文件。encoding 应与真实文件编码匹配；UTF-8 是新建文本常用选择。",
+        "source": "PPT 第 153 页"
+      },
+      {
+        "id": "files-read",
+        "title": "读入完整实验说明",
+        "prompt": "选择只读模式，并调用读取全文的方法。两空都不加引号或括号。",
+        "code": "with open(\"protocol.txt\", \"{{0}}\", encoding=\"utf-8\") as f:\n    protocol = f.{{1}}()",
+        "blanks": [
+          {
+            "answer": "r",
+            "hint": "read 的首字母。"
+          },
+          {
+            "answer": "read",
+            "hint": "读取完整内容，而不是只读一行。"
+          }
+        ],
+        "explanation": "r 模式要求文件存在；read() 返回字符串。读取很大数据文件时，应考虑逐行迭代以控制内存。",
+        "source": "PPT 第 154、160 页"
+      },
+      {
+        "id": "files-append",
+        "title": "追加一条测量结果",
+        "prompt": "让新结果追加到文件末尾，保留已有内容。补全模式和写入方法。",
+        "code": "with open(\"results.txt\", \"{{0}}\", encoding=\"utf-8\") as f:\n    f.{{1}}(\"S01,0.123\\n\")",
+        "blanks": [
+          {
+            "answer": "a",
+            "hint": "append 的首字母，写到已有内容末尾。"
+          },
+          {
+            "answer": "write",
+            "hint": "写入单个字符串的方法。"
+          }
+        ],
+        "explanation": "a 追加，w 会先清空原文件。write 不会自动换行，所以字符串末尾显式写了 \\n。",
+        "source": "PPT 第 154、164–165 页"
+      },
+      {
+        "id": "files-lines",
+        "title": "把多行记录变成列表",
+        "prompt": "拆分为不带行尾换行符的记录，并填写记录条数。",
+        "code": "text = \"S01,0.12\\nS02,0.15\\n\"\nrows = text.{{0}}()\nprint(len(rows))  # {{1}}",
+        "blanks": [
+          {
+            "answer": "splitlines",
+            "hint": "按文本的行边界拆分。"
+          },
+          {
+            "answer": "2",
+            "hint": "末尾的单个换行符不会产生额外一条记录。",
+            "kind": "number"
+          }
+        ],
+        "explanation": "splitlines() 返回 [\"S01,0.12\", \"S02,0.15\"]。它与 split(\"\\n\") 对末尾换行符的处理不同。",
+        "source": "PPT 第 160–163 页"
+      },
+      {
+        "id": "files-csv",
+        "title": "读入浓度表格（延伸）",
+        "prompt": "CSV 第一行含 concentration 列名。补全按表头读行的类名，以及把字段转为浮点数的函数。",
+        "code": "import csv\nwith open(\"samples.csv\", newline=\"\", encoding=\"utf-8\") as f:\n    for row in csv.{{0}}(f):\n        c = {{1}}(row[\"concentration\"])",
+        "blanks": [
+          {
+            "answer": "DictReader",
+            "hint": "csv 提供的字典式读行器，注意大小写。"
+          },
+          {
+            "answer": "float",
+            "hint": "CSV 字段是文本，浓度计算需要浮点数。"
+          }
+        ],
+        "explanation": "DictReader 用表头作为键；float 把数字字符串转为浮点数。newline=\"\" 让 csv 模块处理换行。此题在课件文本读写基础上增加 CSV 实用入口。",
+        "source": "PPT 第 153–164 页（延伸：CSV）"
+      }
+    ]
+  },
+  {
+    "id": "numpy",
+    "title": "NumPy 数值计算",
+    "subtitle": "把吸光度列表变成可批量计算的实验数据",
+    "icon": "array",
+    "source": "PPT 181–205、430",
+    "duration": "10 分钟",
+    "concepts": [
+      {
+        "title": "先看形状，再做计算",
+        "body": "np.array 创建数组。二维 shape=(行数, 列数)，例如 3 次测量 × 2 个样品；一维数组的 shape 则是 (n,)，并不区分行列。索引从 0 开始，a[1, 0] 取第 2 行第 1 列。",
+        "code": "import numpy as np\na = np.array([[0.10, 0.30], [0.20, 0.40], [0.30, 0.50]])\nprint(a.shape)  # (3, 2)\nprint(a[1, 0])  # 0.2"
+      },
+      {
+        "title": "逐元素运算与广播",
+        "body": "数组减去一个空白值，会对每个元素执行相同运算。广播还允许形状相容的数组运算：从末尾维度比较，维度大小相等或其中一个为 1 时可匹配。* 表示逐元素乘法，矩阵乘法用 @。",
+        "code": "raw = np.array([[0.12, 0.24], [0.22, 0.44]])\nblank = np.array([0.02, 0.04])\ncorrected = raw - blank\n# [[0.10, 0.20], [0.20, 0.40]]"
+      },
+      {
+        "title": "axis 指定被汇总的维度",
+        "body": "对形状为 (测量次数, 样品数) 的二维数组，mean(axis=0) 汇总不同测量，保留每个样品的均值；mean(axis=1) 汇总每行内各列。布尔条件 a >= 0.2 得到掩码，a[掩码] 只保留 True 位置。",
+        "code": "a = np.array([[0.10, 0.30], [0.30, 0.50]])\nprint(a.mean(axis=0))  # [0.2, 0.4]\nprint(a[a >= 0.30])    # [0.3, 0.3, 0.5]"
+      },
+      {
+        "title": "标准差要说明分母",
+        "body": "np.std 默认 ddof=0，分母为 N。描述有限次平行测定的样本标准差时，常显式用 ddof=1，分母为 N−1，且需至少 2 个数。Pandas 的 std 默认 ddof=1，比较结果时应统一参数。",
+        "code": "a = np.array([0.19, 0.20, 0.21])\nprint(a.mean())           # 约 0.20\nprint(a.std(ddof=1))      # 约 0.01"
+      }
+    ],
+    "questions": [
+      {
+        "id": "np-array",
+        "title": "创建实验数据数组",
+        "prompt": "将 3 次平行测量、每次 2 个样品的吸光度创建为数组，并查看形状。填写函数名与属性名。",
+        "code": "import numpy as np\na = np.{{0}}([[0.10, 0.30],\n                 [0.20, 0.40],\n                 [0.30, 0.50]])\nprint(a.{{1}})  # (3, 2)",
+        "blanks": [
+          {
+            "answer": "array",
+            "hint": "把 Python 列表转成 NumPy 数组的函数。"
+          },
+          {
+            "answer": "shape",
+            "hint": "记录每个维度大小的属性，不需要括号。"
+          }
+        ],
+        "explanation": "np.array 创建 ndarray，a.shape 返回 (3, 2)。shape 是属性；a.shape() 会报错。",
+        "source": "PPT 第 183 页"
+      },
+      {
+        "id": "np-index",
+        "title": "取出第 2 次测量",
+        "prompt": "提取第 2 行、第 1 列，即第 2 次测量中样品 1 的吸光度 0.20。",
+        "code": "import numpy as np\na = np.array([[0.10, 0.30], [0.20, 0.40], [0.30, 0.50]])\nvalue = a[{{0}}, {{1}}]\nprint(value)  # 0.2",
+        "blanks": [
+          {
+            "answer": "1",
+            "hint": "第 1 行索引为 0，第 2 行呢？"
+          },
+          {
+            "answer": "0",
+            "hint": "第 1 列的索引从 0 开始。"
+          }
+        ],
+        "explanation": "二维索引顺序是 [行, 列]；索引均从 0 开始，所以 a[1, 0] 为 0.20。",
+        "source": "PPT 第 199 页"
+      },
+      {
+        "id": "np-broadcast",
+        "title": "批量扣除空白",
+        "prompt": "空白样品的吸光度为 0.02。通过标量广播，一次性校正全部样品。",
+        "code": "import numpy as np\nraw = np.array([0.12, 0.22, 0.32])\ncorrected = raw - {{0}}\nprint(corrected)  # 约 [0.1, 0.2, 0.3]",
+        "blanks": [
+          {
+            "answer": "0.02",
+            "accept": [
+              ".02",
+              "2e-2",
+              "0.020"
+            ],
+            "hint": "每个原始值都应减去同一个空白值。",
+            "kind": "number"
+          }
+        ],
+        "explanation": "NumPy 将标量 0.02 广播到 raw 的每个位置，无需手写循环。浮点运算可能显示极小的舍入差异。",
+        "source": "PPT 第 193 页"
+      },
+      {
+        "id": "np-axis",
+        "title": "按样品求平行测定均值",
+        "prompt": "每行是一次测量，每列是一个样品。对不同测量求均值，得到两个样品各自的结果。",
+        "code": "import numpy as np\na = np.array([[0.10, 0.30], [0.30, 0.50]])\naverages = np.{{0}}(a, axis={{1}})\nprint(averages)  # [0.2, 0.4]",
+        "blanks": [
+          {
+            "answer": "mean",
+            "hint": "用于求算术平均值的函数。"
+          },
+          {
+            "answer": "0",
+            "hint": "汇总第 0 维：让不同行的测量值合并，保留各列。"
+          }
+        ],
+        "explanation": "axis=0 沿行索引变化的维度聚合，输出每列均值；axis=1 会输出每行均值。",
+        "source": "PPT 第 196 页"
+      },
+      {
+        "id": "np-mask",
+        "title": "筛选达到阈值的信号",
+        "prompt": "筛选吸光度大于或等于 0.20 的数据。填写包含等于关系的比较运算符。",
+        "code": "import numpy as np\na = np.array([0.10, 0.20, 0.35])\nselected = a[a {{0}} 0.20]\nprint(selected)  # [0.2, 0.35]",
+        "blanks": [
+          {
+            "answer": ">=",
+            "hint": "大于等于由两个 ASCII 符号组成。"
+          }
+        ],
+        "explanation": "a >= 0.20 产生 [False, True, True]；布尔索引保留对应为 True 的元素。",
+        "source": "PPT 第 201 页"
+      },
+      {
+        "id": "np-std",
+        "title": "计算样本标准差",
+        "prompt": "3 次平行测定的吸光度为 0.19、0.20、0.21。用 N−1 作为分母计算样本标准差。",
+        "code": "import numpy as np\na = np.array([0.19, 0.20, 0.21])\ns = np.{{0}}(a, ddof={{1}})\nprint(round(s, 3))  # 0.01",
+        "blanks": [
+          {
+            "answer": "std",
+            "hint": "standard deviation 的常用缩写。"
+          },
+          {
+            "answer": "1",
+            "hint": "分母是 N − ddof，此处需要 N − 1。",
+            "kind": "number"
+          }
+        ],
+        "explanation": "np.std 的默认 ddof=0。这里显式设置 ddof=1，得到约 0.01 的样本标准差。",
+        "source": "PPT 第 430 页"
+      }
+    ]
+  },
+  {
+    "id": "pandas",
+    "title": "Pandas 表格处理",
+    "subtitle": "从样品表读取、选取、分组到合并",
+    "icon": "table",
+    "source": "PPT 206–251",
+    "duration": "10 分钟",
+    "concepts": [
+      {
+        "title": "表格与列是两种对象",
+        "body": "DataFrame 是有行列标签的二维表格，Series 常对应一列。pd.read_csv 读取 CSV 文件；df.head() 快速查看前几行。df['absorbance'] 得到 Series，df[['absorbance']] 保持二维表格。",
+        "code": "import pandas as pd\ndf = pd.DataFrame({'sample': ['S1', 'S2'], 'absorbance': [0.20, 0.40]})\nprint(df.head())\n# 实际文件：df = pd.read_csv('samples.csv')"
+      },
+      {
+        "title": "loc 看标签，iloc 看位置",
+        "body": "df.loc['S2', 'absorbance'] 使用标签；df.iloc[1, 0] 使用从 0 开始的位置。iloc 切片不含右端点，loc 标签切片通常包含两端。条件筛选也可写成 df.loc[条件, 列名]。",
+        "code": "df = pd.DataFrame({'absorbance': [0.20, 0.40]}, index=['S1', 'S2'])\nprint(df.loc['S2', 'absorbance'])  # 0.4\nprint(df.iloc[1, 0])             # 0.4"
+      },
+      {
+        "title": "groupby 先分组，再统计",
+        "body": "按 batch 分组，再选择 absorbance 这一数值列调用 mean，就能得到各批次均值。明确选择数值列可避免把样品编号等文本列混入统计。",
+        "code": "df = pd.DataFrame({'batch': ['A', 'A', 'B'], 'absorbance': [0.2, 0.4, 0.6]})\nsummary = df.groupby('batch')['absorbance'].mean()\n# A → 约 0.3；B → 0.6"
+      },
+      {
+        "title": "concat 沿指定轴拼接",
+        "body": "pd.concat([df1, df2], axis=0) 上下增加行；axis=1 左右增加列并按行标签对齐。ignore_index=True 生成连续行号。新代码使用 pd.concat，不使用课件中的旧 DataFrame.append。",
+        "code": "first = pd.DataFrame({'sample': ['S1'], 'absorbance': [0.2]})\nsecond = pd.DataFrame({'sample': ['S2'], 'absorbance': [0.4]})\nall_samples = pd.concat([first, second], ignore_index=True)"
+      }
+    ],
+    "questions": [
+      {
+        "id": "pd-frame",
+        "title": "创建样品记录表",
+        "prompt": "用字典创建有 sample 和 absorbance 两列的二维表格。注意类名的大小写。",
+        "code": "import pandas as pd\ndf = pd.{{0}}({\n    'sample': ['S1', 'S2'],\n    'absorbance': [0.20, 0.40]\n})\nprint(df.shape)  # (2, 2)",
+        "blanks": [
+          {
+            "answer": "DataFrame",
+            "hint": "Data 和 Frame 的首字母大写。"
+          }
+        ],
+        "explanation": "DataFrame 可以由各列等长的字典创建；字典的键成为列名。",
+        "source": "PPT 第 216 页"
+      },
+      {
+        "id": "pd-csv",
+        "title": "读取 CSV 数据文件",
+        "prompt": "当前目录已有 samples.csv。用 Pandas 读取它，并预览前 3 行。",
+        "code": "import pandas as pd\ndf = pd.{{0}}('samples.csv')\nprint(df.{{1}}(3))",
+        "blanks": [
+          {
+            "answer": "read_csv",
+            "hint": "函数名表示 read + 下划线 + 文件类型。"
+          },
+          {
+            "answer": "head",
+            "hint": "查看表格头部若干行的方法。"
+          }
+        ],
+        "explanation": "pd.read_csv 返回 DataFrame；head(3) 返回前 3 行。运行该示例前，需要在工作目录准备对应 CSV 文件。",
+        "source": "PPT 第 224 页"
+      },
+      {
+        "id": "pd-loc",
+        "title": "用样品标签选值",
+        "prompt": "行标签为 S1 和 S2。使用标签索引器取出 S2 的吸光度。",
+        "code": "import pandas as pd\ndf = pd.DataFrame({'absorbance': [0.2, 0.4]}, index=['S1', 'S2'])\nvalue = df.{{0}}['S2', 'absorbance']\nprint(value)  # 0.4",
+        "blanks": [
+          {
+            "answer": "loc",
+            "hint": "以行列标签定位，而非整数位置。",
+            "accept": [
+              "at"
+            ]
+          }
+        ],
+        "explanation": "loc 使用行列标签。此处只取一个标量，at 也有效，因此两种写法都接受。",
+        "source": "PPT 第 227 页"
+      },
+      {
+        "id": "pd-iloc",
+        "title": "用整数位置选值",
+        "prompt": "不依赖行标签的具体内容，用整数位置索引器取第 2 行第 1 列。",
+        "code": "import pandas as pd\ndf = pd.DataFrame({'absorbance': [0.2, 0.4]}, index=['S1', 'S2'])\nvalue = df.{{0}}[1, 0]\nprint(value)  # 0.4",
+        "blanks": [
+          {
+            "answer": "iloc",
+            "hint": "名称以 i 开头，用从 0 开始的整数位置。",
+            "accept": [
+              "iat"
+            ]
+          }
+        ],
+        "explanation": "iloc 使用位置，1 代表第 2 行，0 代表第 1 列。取单个标量时 iat 也有效。",
+        "source": "PPT 第 227 页"
+      },
+      {
+        "id": "pd-group",
+        "title": "按实验批次求均值",
+        "prompt": "按 batch 列分组，计算各批次 absorbance 的平均值。",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\n    'batch': ['A', 'A', 'B'],\n    'absorbance': [0.2, 0.4, 0.6]\n})\nsummary = df.{{0}}('batch')['absorbance'].{{1}}()\nprint(summary)  # A: 约 0.3；B: 0.6",
+        "blanks": [
+          {
+            "answer": "groupby",
+            "hint": "按指定列建立分组。"
+          },
+          {
+            "answer": "mean",
+            "hint": "计算组内算术平均数。"
+          }
+        ],
+        "explanation": "groupby('batch') 建立分组；随后明确选择吸光度列并调用 mean，返回每组均值。",
+        "source": "PPT 第 232 页"
+      },
+      {
+        "id": "pd-concat",
+        "title": "合并两批样品记录",
+        "prompt": "将两个同列名表格上下拼接，并把行号重新编号为 0、1。",
+        "code": "import pandas as pd\nfirst = pd.DataFrame({'sample': ['S1'], 'absorbance': [0.2]})\nsecond = pd.DataFrame({'sample': ['S2'], 'absorbance': [0.4]})\nall_samples = pd.{{0}}([first, second], ignore_index={{1}})\nprint(all_samples.shape)  # (2, 2)",
+        "blanks": [
+          {
+            "answer": "concat",
+            "hint": "将多个 Series 或 DataFrame 拼接的函数。"
+          },
+          {
+            "answer": "True",
+            "hint": "Python 中表示真的布尔字面量，首字母大写。"
+          }
+        ],
+        "explanation": "concat 默认 axis=0，沿行方向拼接；ignore_index=True 重建连续行号，代替旧版 append 示例。",
+        "source": "PPT 第 242 页"
+      }
+    ]
+  },
+  {
+    "id": "cleaning",
+    "title": "数据清洗",
+    "subtitle": "识别缺失、重复和不一致的样品名称",
+    "icon": "filter",
+    "source": "PPT 259–288、300–303",
+    "duration": "10 分钟",
+    "concepts": [
+      {
+        "title": "先识别，再决定如何处理",
+        "body": "isna() 对缺失位置返回 True，sum() 可以统计缺失个数。不要用 == np.nan 判断缺失。空字符串、'ND' 等实验室标记需按数据说明另行转换；0 是有效数字，并不自动等于缺失。",
+        "code": "import pandas as pd\ns = pd.Series([0.20, None, 0.0])\nprint(s.isna().sum())  # 1"
+      },
+      {
+        "title": "删除和填补各有代价",
+        "body": "dropna(subset=['absorbance']) 只检查指定列。fillna(数值) 可填补缺失，但会改变数据分布；均值填补仅作 API 练习，实际实验应依据缺失原因决定。保留原始数据，用赋值保存清洗结果。前向填补的现代写法是 ffill()。",
+        "code": "valid = df.dropna(subset=['absorbance'])\nfilled = df['absorbance'].fillna(df['absorbance'].mean())"
+      },
+      {
+        "title": "重复记录不等于平行实验",
+        "body": "duplicated() 标出重复行，drop_duplicates() 删除重复行；subset 指定判断依据。默认保留首次出现的记录。先确认重复来自导入错误，避免把数值相同但独立完成的平行测定误删。",
+        "code": "mask = df.duplicated(subset=['record_id'])\nunique = df.drop_duplicates(subset=['record_id'], keep='first')"
+      },
+      {
+        "title": "用 .str 统一文本格式",
+        "body": "Series.str 将字符串操作应用到整列：strip() 去除首尾空白，upper() 统一大写，contains() 检查是否包含指定文本。包含缺失值时，可用 na=False 把缺失项作为不匹配。",
+        "code": "df['sample'] = df['sample'].str.strip().str.upper()\nmask = df['sample'].str.contains('STD', na=False)"
+      }
+    ],
+    "questions": [
+      {
+        "id": "clean-isna",
+        "title": "统计缺失的测量值",
+        "prompt": "统计吸光度列有多少个缺失值。None 应计入，0.0 应保留为有效值。",
+        "code": "import pandas as pd\ns = pd.Series([0.20, None, 0.0, None])\nmissing_count = s.{{0}}().sum()\nprint(missing_count)  # 2",
+        "blanks": [
+          {
+            "answer": "isna",
+            "accept": [
+              "isnull"
+            ],
+            "hint": "缺失位置返回 True；isnull 是同义写法。"
+          }
+        ],
+        "explanation": "isna 返回缺失掩码；True 求和按 1 计数。0.0 不属于缺失值。",
+        "source": "PPT 第 265 页"
+      },
+      {
+        "id": "clean-dropna",
+        "title": "只检查关键测量列",
+        "prompt": "删除 absorbance 缺失的记录；note 缺失的 S1 仍应保留。",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\n    'sample': ['S1', 'S2'],\n    'absorbance': [0.20, None],\n    'note': [None, 'repeat']\n})\nvalid = df.{{0}}(subset=['absorbance'])\nprint(valid['sample'].tolist())  # ['S1']",
+        "blanks": [
+          {
+            "answer": "dropna",
+            "hint": "删除缺失项的方法，配合 subset 限定检查范围。"
+          }
+        ],
+        "explanation": "subset=['absorbance'] 让删除条件只检查吸光度。直接 df.dropna() 会把 note 缺失的 S1 也删掉。",
+        "source": "PPT 第 268 页"
+      },
+      {
+        "id": "clean-fillna",
+        "title": "练习用均值填补",
+        "prompt": "本题仅演示 API：用有效吸光度的均值 0.30 填补缺失项。",
+        "code": "import pandas as pd\ns = pd.Series([0.20, None, 0.40])\nfilled = s.{{0}}(s.{{1}}())\nprint(filled.round(2).tolist())  # [0.2, 0.3, 0.4]",
+        "blanks": [
+          {
+            "answer": "fillna",
+            "hint": "用指定值填补缺失。"
+          },
+          {
+            "answer": "mean",
+            "hint": "Pandas 默认跳过缺失项计算算术平均数。"
+          }
+        ],
+        "explanation": "s.mean() 默认跳过缺失项，得到约 0.30；fillna 仅替换缺失位置。实际实验不要未经判断就用均值填补。",
+        "source": "PPT 第 271 页"
+      },
+      {
+        "id": "clean-duplicates",
+        "title": "修复重复导入记录",
+        "prompt": "record_id 唯一标识一次测量，ID=1 被重复导入。先检查重复，再按 ID 去重。",
+        "code": "import pandas as pd\ndf = pd.DataFrame({'record_id': [1, 1, 2], 'absorbance': [0.2, 0.2, 0.4]})\nprint(df.{{0}}(subset=['record_id']).tolist())\n# [False, True, False]\nunique = df.{{1}}(subset=['record_id'])\nprint(len(unique))  # 2",
+        "blanks": [
+          {
+            "answer": "duplicated",
+            "hint": "返回标记重复行的布尔结果。"
+          },
+          {
+            "answer": "drop_duplicates",
+            "hint": "删除重复记录；默认保留第一次出现。"
+          }
+        ],
+        "explanation": "duplicated 默认把第一次出现之后的相同 ID 标为 True。drop_duplicates 默认 keep='first'，保留 2 条唯一记录。",
+        "source": "PPT 第 285 页"
+      },
+      {
+        "id": "clean-strings",
+        "title": "统一样品编号",
+        "prompt": "把首尾空格去掉，并将样品编号统一为大写：' s1 ' → 'S1'。",
+        "code": "import pandas as pd\nsamples = pd.Series([' s1 ', 's2'])\nclean = samples.str.{{0}}().str.{{1}}()\nprint(clean.tolist())  # ['S1', 'S2']",
+        "blanks": [
+          {
+            "answer": "strip",
+            "hint": "去除首尾空白的字符串方法。"
+          },
+          {
+            "answer": "upper",
+            "hint": "将英文字母统一为大写。"
+          }
+        ],
+        "explanation": "每次 .str 方法都作用于整列。strip 清除首尾空白，upper 转为大写，有助于后续按样品编号匹配。",
+        "source": "PPT 第 302 页"
+      },
+      {
+        "id": "clean-contains",
+        "title": "找出标准样品记录",
+        "prompt": "筛选名称包含 'STD' 的标准样品，并让缺失名称被判断为不匹配。",
+        "code": "import pandas as pd\nsamples = pd.Series(['STD-1', None, 'S1'])\nmask = samples.str.{{0}}('STD', na={{1}})\nprint(samples[mask].tolist())  # ['STD-1']",
+        "blanks": [
+          {
+            "answer": "contains",
+            "hint": "检查字符串中是否包含给定文本。"
+          },
+          {
+            "answer": "False",
+            "hint": "Python 的假值，首字母大写。"
+          }
+        ],
+        "explanation": "str.contains 检查包含关系；na=False 明确将缺失名称设为不匹配，让筛选掩码没有缺失项。",
+        "source": "PPT 第 303 页"
+      }
+    ]
+  },
+  {
+    "id": "plotting",
+    "title": "Matplotlib 与 Seaborn",
+    "subtitle": "用合适的图表达校准关系和数据分布",
+    "icon": "chart",
+    "source": "PPT 348–379、401–403",
+    "duration": "10 分钟",
+    "concepts": [
+      {
+        "title": "Figure 是画布，Axes 是绘图区",
+        "body": "fig, ax = plt.subplots() 创建画布和绘图区。ax.plot 连接有顺序的数据点，适合光谱或已排序的校准关系；ax.scatter 展示每次独立测量。连线本身不会自动进行线性回归。",
+        "code": "import matplotlib.pyplot as plt\nc = [0, 1, 2, 3]\na = [0.01, 0.21, 0.40, 0.61]\nfig, ax = plt.subplots()\nax.scatter(c, a, label='Measurements')\nax.legend()"
+      },
+      {
+        "title": "坐标和图例让图可读",
+        "body": "轴标签应写明物理量和单位；吸光度通常作为无量纲量。set_xlabel 和 set_ylabel 设置 Axes 的标签。绘图时 label 定义系列名称，legend() 才把这些名称显示出来。",
+        "code": "ax.set_xlabel('Concentration (mg/L)')\nax.set_ylabel('Absorbance')\nax.set_title('Calibration data')\nax.legend()"
+      },
+      {
+        "title": "保存与显示是两个动作",
+        "body": "fig.savefig('calibration.png', dpi=300) 保存指定画布，plt.show() 显示图。常规脚本建议先保存再显示：阻塞式 show 结束后，pyplot 可能已关闭图。持有 fig 引用时，可直接用 fig.savefig 保存该画布。",
+        "code": "fig.tight_layout()\nfig.savefig('calibration.png', dpi=300)\nplt.show()"
+      },
+      {
+        "title": "Seaborn 看分布与矩阵",
+        "body": "sns.histplot 查看单个变量的频数分布；bins 控制分箱数量。sns.heatmap 将二维数值映射为颜色，annot=True 显示数值。颜色的高低含义取决于 cmap，不能一概理解为暖色一定更大。新代码使用 histplot，替代旧 distplot。",
+        "code": "import seaborn as sns\n# 单变量分布：sns.histplot(data=df, x='absorbance', bins=10)\n# 二维矩阵：sns.heatmap(matrix, annot=True, cmap='viridis')"
+      }
+    ],
+    "questions": [
+      {
+        "id": "plot-types",
+        "title": "区分连线与测量点",
+        "prompt": "先用折线连接按浓度排序的数据，再用散点突出每次测量。填写两个 Axes 方法。",
+        "code": "import matplotlib.pyplot as plt\nc = [0, 1, 2, 3]\na = [0.01, 0.21, 0.40, 0.61]\nfig, ax = plt.subplots()\nax.{{0}}(c, a, label='Trend')\nax.{{1}}(c, a, label='Measurements')",
+        "blanks": [
+          {
+            "answer": "plot",
+            "hint": "常用的折线绘图方法。"
+          },
+          {
+            "answer": "scatter",
+            "hint": "表示散点的英文单词。"
+          }
+        ],
+        "explanation": "plot 默认按输入顺序连接相邻点；scatter 显示独立散点。这里的折线只作连接，并未拟合校准模型。",
+        "source": "PPT 第 353 页"
+      },
+      {
+        "id": "plot-labels",
+        "title": "标明浓度与吸光度",
+        "prompt": "为 ax 添加横轴和纵轴名称。横轴浓度单位为 mg/L，纵轴为吸光度。",
+        "code": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.scatter([0, 1, 2], [0.01, 0.21, 0.40])\nax.{{0}}('Concentration (mg/L)')\nax.{{1}}('Absorbance')",
+        "blanks": [
+          {
+            "answer": "set_xlabel",
+            "hint": "Axes 方法以 set_ 开头，x 代表横轴。"
+          },
+          {
+            "answer": "set_ylabel",
+            "hint": "Axes 方法以 set_ 开头，y 代表纵轴。"
+          }
+        ],
+        "explanation": "Axes 对象使用 set_xlabel 与 set_ylabel。课件中的 plt.xlabel/plt.ylabel 对应 pyplot 接口，两套写法注意对象和方法名一致。",
+        "source": "PPT 第 354 页"
+      },
+      {
+        "id": "plot-legend",
+        "title": "显示图例名称",
+        "prompt": "散点已用 label 指定系列名。调用相应方法，让图例显示出来。",
+        "code": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.scatter([1, 2, 3], [0.2, 0.4, 0.6], label='Standards')\nax.{{0}}()",
+        "blanks": [
+          {
+            "answer": "legend",
+            "hint": "图例的英文名称。"
+          }
+        ],
+        "explanation": "label 为图形元素命名，legend() 收集这些名称并显示图例；仅填写 label 通常不会自动出现图例。",
+        "source": "PPT 第 353 页"
+      },
+      {
+        "id": "plot-save",
+        "title": "先保存，再显示",
+        "prompt": "把当前 Figure 以 300 dpi 保存为 calibration.png，然后显示图形。",
+        "code": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.scatter([1, 2, 3], [0.2, 0.4, 0.6])\nfig.{{0}}('calibration.png', dpi=300)\nplt.{{1}}()",
+        "blanks": [
+          {
+            "answer": "savefig",
+            "hint": "save + fig，表示将 Figure 写入文件。"
+          },
+          {
+            "answer": "show",
+            "hint": "显示图形窗口的 pyplot 函数。"
+          }
+        ],
+        "explanation": "savefig 保存图片，show 显示图片。保存放在 show 前是稳妥的脚本顺序；这并不意味着持有 fig 时绝对不能在 show 后保存。",
+        "source": "PPT 第 359 页"
+      },
+      {
+        "id": "plot-hist",
+        "title": "查看吸光度分布",
+        "prompt": "用 Seaborn 画直方图，并指定 3 个分箱。填写现代直方图函数与分箱参数。",
+        "code": "import pandas as pd\nimport seaborn as sns\ndf = pd.DataFrame({'absorbance': [0.18, 0.20, 0.21, 0.23, 0.30, 0.31]})\nsns.{{0}}(data=df, x='absorbance', {{1}}=3)",
+        "blanks": [
+          {
+            "answer": "histplot",
+            "hint": "hist（直方图）与 plot（绘图）组合。"
+          },
+          {
+            "answer": "bins",
+            "hint": "分箱的英文复数形式。"
+          }
+        ],
+        "explanation": "histplot 是当前推荐的直方图接口；bins=3 指定 3 个分箱。分箱数量会影响观察到的分布形态。",
+        "source": "PPT 第 373 页"
+      },
+      {
+        "id": "plot-heat",
+        "title": "用热图查看二维数据",
+        "prompt": "将 2 个样品在 2 个波长的吸光度画为热图，并在色块上显示数值。",
+        "code": "import seaborn as sns\nmatrix = [[0.10, 0.20], [0.30, 0.40]]\nsns.{{0}}(matrix, annot={{1}}, cmap='viridis')",
+        "blanks": [
+          {
+            "answer": "heatmap",
+            "hint": "heat + map，颜色表示二维数值。"
+          },
+          {
+            "answer": "True",
+            "hint": "开启数值标注，Python 真值首字母大写。"
+          }
+        ],
+        "explanation": "heatmap 接收二维数据；annot=True 在色块中显示数值。viridis 的颜色含义应结合旁边的颜色条解读。",
+        "source": "PPT 第 401 页"
+      }
+    ]
+  }
+];
+
+</script>
+<script>
+(() => {
+  'use strict';
+  const course = window.COURSE || [];
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const KEY = 'python-chemistry-workbook:v1';
+  const questionMap = new Map(course.flatMap(m => m.questions.map(q => [q.id, {q, m}])));
+  let lastStorageValue = null;
+  let state = {answers:{},results:{},notes:{},lastModule:'setup'};
+  let storageOK = true;
+  try { lastStorageValue = localStorage.getItem(KEY); const stored = JSON.parse(lastStorageValue); if (stored && typeof stored === 'object') {
+    for (const key of ['answers','results','notes']) if (stored[key] && typeof stored[key] === 'object' && !Array.isArray(stored[key])) state[key] = stored[key];
+    if (course.some(m => m.id === stored.lastModule)) state.lastModule = stored.lastModule;
+  }} catch { storageOK = false; }
+  let active = course.some(m => m.id === location.hash.slice(1)) ? location.hash.slice(1) : state.lastModule;
+  let filter = 'all';
+  let search = '';
+  let toastTimeout;
+  const getAnswers = q => Array.isArray(state.answers[q.id]) ? state.answers[q.id] : q.blanks.map(() => '');
+  const status = id => state.results[id]?.status || 'pending';
+  const solved = m => m.questions.filter(q => status(q.id) === 'correct').length;
+  const totalSolved = () => course.reduce((n,m) => n + solved(m), 0);
+  const total = questionMap.size;
+  const save = () => { try { const serialized = JSON.stringify(state); localStorage.setItem(KEY, serialized); lastStorageValue = serialized; storageOK = true; } catch { storageOK = false; } $('#save-label').textContent = storageOK ? '已自动保存 · 当前浏览器' : '浏览器未允许保存，请导出记录'; };
+  const toast = text => { $('#toast').textContent = text; $('#toast').hidden = false; clearTimeout(toastTimeout); toastTimeout = setTimeout(() => $('#toast').hidden = true, 3000); };
+  // Compare lexical tokens, preserving identifier boundaries and string content.
+  // This accepts harmless code spacing and equivalent quote styles without executing input.
+  const normalize = value => {
+    const source = String(value).trim().replace(/[“”]/g,'"').replace(/[‘’]/g,"'");
+    const tokens = source.match(/(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')|(?:[\p{L}_][\p{L}\p{N}_]*)|(?:\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)|(?:==|!=|<=|>=|\*\*|\/\/|:=|\+=|-=|\*=|\/=)|[^\s]/gu) || [];
+    return tokens.map(t => /^['"]/.test(t) ? 'string:' + t.slice(1,-1) : t).join('\u001f');
+  };
+  const matches = (value, blank) => {
+    if (!String(value).trim()) return false;
+    const options = [blank.answer, ...(blank.accept || [])];
+    if (blank.kind === 'literal') return options.some(a => String(value).trim() === a);
+    if (/^--?[A-Za-z]/.test(blank.answer)) return options.some(a => String(value).trim() === a);
+    if (blank.kind === 'number') {
+      const v = Number(String(value).trim());
+      return Number.isFinite(v) && options.some(a => Number.isFinite(Number(a)) && Math.abs(v - Number(a)) <= 1e-8 * Math.max(1, Math.abs(Number(a))));
+    }
+    return options.some(a => normalize(value) === normalize(a));
+  };
+  const labelFor = s => ({correct:'已答对',incorrect:'再试一次',revealed:'已看答案',pending:'待填写'}[s] || '待填写');
+  function updateStats() {
+    $('#stat-total').textContent = total;
+    $('#stat-modules').textContent = course.length;
+    $('#stat-completed').textContent = totalSolved();
+    $('#todo-count').textContent = total - totalSolved();
+    $('#wrong-count').textContent = [...questionMap.keys()].filter(id => status(id) === 'incorrect').length;
+    $('#nav-count').textContent = course.length + ' 个单元';
+    $('#module-nav').innerHTML = course.map((m,i) => `<button class="module-nav-item ${m.id === active ? 'active' : ''}" data-module="${m.id}" ${m.id === active ? 'aria-current="step"' : ''}><span class="nav-index">${String(i+1).padStart(2,'0')}</span><span class="nav-copy"><strong>${esc(m.title)}</strong><small>${esc(m.subtitle)}</small></span><span class="nav-status ${solved(m) === m.questions.length ? 'complete' : ''}">${solved(m) === m.questions.length ? '✓' : solved(m)+'/'+m.questions.length}</span></button>`).join('');
+  }
+  function renderCode(q, reveal = false) {
+    const answers = getAnswers(q);
+    const result = state.results[q.id];
+    return q.code.split(/(\{\{\d+\}\})/g).map(chunk => {
+      const m = chunk.match(/^\{\{(\d+)\}\}$/);
+      if (!m) return esc(chunk);
+      const i = Number(m[1]); const b = q.blanks[i];
+      if (!b) return esc(chunk);
+      if (reveal) return `<mark>${esc(b.answer)}</mark>`;
+      const fieldClass = result?.status === 'correct' ? 'correct' : result?.status === 'incorrect' && !result.checks?.[i] ? 'incorrect' : '';
+      return `<input class="blank-input ${fieldClass}" type="text" data-q="${q.id}" data-blank="${i}" value="${esc(answers[i] || '')}" placeholder="填写 ${i+1}" style="width:${Math.min(35,Math.max(7,(String(answers[i] || '').length || Math.min(b.answer.length+1,20))+2))}ch" aria-label="${esc(q.title)}，第 ${i+1} 空" autocomplete="off" autocapitalize="off" spellcheck="false">`;
+    }).join('');
+  }
+  function renderQuestion(q, m, i) {
+    const result = state.results[q.id]; const s = status(q.id);
+    const blankCount = q.blanks.length;
+    return `<article class="question-card" data-card="${q.id}" aria-labelledby="title-${q.id}"><div class="question-heading"><span class="question-number">${String(i+1).padStart(2,'0')}</span><h3 class="question-title" id="title-${q.id}">${esc(q.title)}</h3><span class="status-pill ${s}">${labelFor(s)}</span></div><p class="question-prompt">${esc(q.prompt)}</p><div class="code-window"><div class="code-title"><span>PYTHON <i>·</i> ${blankCount} 处填空</span><span>${esc(q.source)}</span></div><pre class="code-template"><code>${renderCode(q)}</code></pre></div><div class="question-actions"><button class="button primary small" data-action="check" data-q="${q.id}">检查答案 <span aria-hidden="true">↵</span></button><button class="button ghost small hint-toggle" data-action="hint" data-q="${q.id}" aria-expanded="false">给我提示</button><button class="button ghost small" data-action="reveal" data-q="${q.id}">查看解析</button><button class="button ghost small retry-button" data-action="clear" data-q="${q.id}" aria-label="清空${esc(q.title)}的填写">重填</button></div><div class="hint-box" id="hint-${q.id}" hidden>${q.blanks.map((b,n) => `<p><strong>第 ${n+1} 空：</strong>${esc(b.hint)}</p>`).join('')}</div><div class="question-feedback ${s === 'correct' ? 'success' : s === 'incorrect' ? 'error' : s === 'revealed' ? 'solution' : ''}" id="feedback-${q.id}" ${!result ? 'hidden' : ''} role="status">${renderFeedback(q, result)}</div></article>`;
+  }
+  function renderFeedback(q, result) {
+    if (!result) return '';
+    if (result.status === 'correct') return `<strong>✓ 答对了，继续保持。</strong><p>${esc(q.explanation)}</p>`;
+    if (result.status === 'incorrect') return `<strong>还有 ${q.blanks.length - (result.checks || []).filter(Boolean).length} 处需要调整。</strong><p>检查标红的填空。可以展开提示，想一想再试。</p>`;
+    if (result.status === 'revealed') return `<strong>参考答案与解析</strong><div class="answer-line">${q.blanks.map((b,i) => `<span>第 ${i+1} 空 <code>${esc(b.answer)}</code></span>`).join('')}</div><p>${esc(q.explanation)}</p><p class="solution-note">这道题已标记为“已看答案”。点击“重填”后，再独立完成一次。</p>`;
+    return '';
+  }
+  const matchesSearch = (q,m) => !search || [q.title,q.prompt,q.code,q.explanation,m.title,m.subtitle,...m.concepts.flatMap(c => [c.title,c.body])].join(' ').toLowerCase().includes(search.toLowerCase());
+  const matchesFilter = q => filter === 'all' || (filter === 'todo' ? status(q.id) !== 'correct' : status(q.id) === 'incorrect');
+  function render({scroll = false} = {}) {
+    updateStats();
+    const m = course.find(x => x.id === active) || course[0];
+    if (!m) { $('#learning-content').textContent = '学习内容加载失败，请重新打开页面。'; return; }
+    const mi = course.indexOf(m);
+    const searching = !!search || filter !== 'all';
+    const questions = searching ? course.flatMap(mod => mod.questions.map((q,i) => ({q,m:mod,i}))) : m.questions.map((q,i) => ({q,m,i}));
+    const visible = questions.filter(({q,m}) => matchesSearch(q,m) && matchesFilter(q));
+    const concepts = m.concepts.map((c,i) => `<details class="concept" ${i === 0 ? 'open' : ''}><summary>${esc(c.title)}</summary><p>${esc(c.body)}</p>${c.code ? `<pre><code>${esc(c.code)}</code></pre>` : ''}</details>`).join('');
+    $('#learning-content').innerHTML = `<section class="module-intro"><span class="module-number">${searching ? '⌕' : String(mi+1).padStart(2,'0')}</span><div class="module-heading"><div class="panel-kicker">${searching ? 'SEARCH ALL LESSONS' : 'LESSON '+String(mi+1).padStart(2,'0')+' / '+course.length}</div><h2>${searching ? (search ? '找到 '+visible.length+' 道相关练习' : (filter === 'wrong' ? '错题重练 · '+visible.length+' 题' : '待掌握 · '+visible.length+' 题')) : esc(m.title)}</h2><p>${searching ? (search ? '搜索范围覆盖全部学习单元。点击目录可返回单元学习。' : '汇总全部单元的练习。点击目录可回到对应知识点。') : esc(m.subtitle)}</p></div><span class="source-tag">${searching ? (search ? '搜索：'+esc(search) : '全部学习单元') : esc(m.source)+' · 约 '+esc(m.duration)}</span></section>${!searching ? `<div class="module-progress"><span>本单元掌握 <strong>${solved(m)} / ${m.questions.length}</strong></span><div class="progress-track" role="progressbar" aria-label="本单元答对题数" aria-valuenow="${solved(m)}" aria-valuemin="0" aria-valuemax="${m.questions.length}"><i style="width:${solved(m)/m.questions.length*100}%"></i></div></div>` : ''}<div class="lesson-layout ${searching ? 'searching' : ''}">${!searching ? `<aside class="concept-panel"><span class="panel-kicker">BEFORE YOU START</span><h3>先把概念理清楚</h3><p class="concept-lead">展开要点，再动手填写练习代码。</p>${concepts}<div class="learning-tip"><span>✦</span><p>填空区支持键盘 Tab 切换。按 Enter 可检查当前题目。</p></div></aside>` : ''}<section class="exercise-panel" aria-label="填写练习">${visible.length ? visible.map(({q,m,i}) => `${searching ? `<div class="search-module-label">${esc(m.title)} · ${esc(q.source)}</div>` : ''}${renderQuestion(q,m,i)}`).join('') : `<div class="empty-state"><span>${filter === 'wrong' ? '✓' : '⌕'}</span><h3>${filter === 'wrong' ? '这里暂时没有错题' : '没有符合条件的练习'}</h3><p>${filter === 'wrong' ? '检查后未答对的题目会出现在这里。' : '试试其他关键词，或切换到全部练习。'}</p><button class="button primary" data-action="all">查看全部练习</button></div>`}${!searching ? `<div class="module-footer"><span>填写完成后，检查一下有没有遗漏。</span><button class="button small" data-action="check-module">检查本单元</button></div><section class="notes-panel"><label for="module-notes"><strong>留给自己的笔记</strong><span>写下易错点，或下次想问的问题。</span></label><textarea id="module-notes" aria-label="本单元学习笔记" data-module="${m.id}" placeholder="例如：切片不包含右端点；列表复制要用 copy()…" rows="3">${esc(state.notes[m.id] || '')}</textarea></section><div class="bottom-nav"><button class="button ghost" data-action="prev" ${mi === 0 ? 'disabled' : ''}>← 上一单元</button><span>${mi+1} / ${course.length}</span><button class="button primary" data-action="next">${mi === course.length - 1 ? '查看学习概览 ↗' : '下一单元 →'}</button></div>` : ''}</section></div>`;
+    if (scroll) $('.workspace-bar').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function goModule(id) {
+    if (!course.some(m => m.id === id)) return;
+    active = id; state.lastModule = id; search = ''; $('#search').value = ''; filter = 'all'; syncFilters();
+    history.replaceState(null,'','#'+id); save(); render({scroll:true}); toggleMobile(false);
+  }
+  function syncFilters() { $$('.filter-pill').forEach(b => {b.classList.toggle('active',b.dataset.filter === filter); b.setAttribute('aria-pressed',String(b.dataset.filter === filter));}); }
+  function check(id, rerender = true) {
+    const q = questionMap.get(id)?.q; if (!q) return;
+    const answers = getAnswers(q);
+    const checks = q.blanks.map((b,i) => matches(answers[i] || '',b));
+    const wasRevealed = status(id) === 'revealed' || state.results[id]?.seenSolution;
+    state.results[id] = {status:checks.every(Boolean) ? (wasRevealed ? 'revealed' : 'correct') : 'incorrect',checks,seenSolution:!!wasRevealed};
+    save();
+    if (rerender) refreshCard(id);
+  }
+  function refreshCard(id) {
+    if (filter !== 'all') { render(); return; }
+    const item = questionMap.get(id); const card = $(`[data-card="${id}"]`);
+    if (card) {
+      const focused = document.activeElement;
+      const focusSelector = card.contains(focused) ? (focused.dataset.action ? `[data-action="${focused.dataset.action}"]` : focused.dataset.blank !== undefined ? `[data-blank="${focused.dataset.blank}"]` : '') : '';
+      const expanded = $(`[data-action="hint"]`,card)?.getAttribute('aria-expanded') === 'true';
+      card.outerHTML = renderQuestion(item.q,item.m,item.m.questions.indexOf(item.q));
+      if (expanded) {$('#hint-'+id).hidden = false; $(`[data-action="hint"][data-q="${id}"]`).setAttribute('aria-expanded','true');}
+      if(focusSelector) $(focusSelector,$(`[data-card="${id}"]`))?.focus({preventScroll:true});
+    }
+    updateStats();
+    const m = course.find(x => x.id === active);
+    if (m && !search && filter === 'all') { const count = $('.module-progress strong'); if(count) count.textContent = solved(m)+' / '+m.questions.length; const p = $('[role="progressbar"]'); if(p) {p.setAttribute('aria-valuenow',solved(m)); $('i',p).style.width = solved(m)/m.questions.length*100+'%';} }
+  }
+  $('#learning-content').addEventListener('input', e => {
+    if (e.target.matches('.blank-input')) {
+      const {q:id,blank} = e.target.dataset; const q = questionMap.get(id).q;
+      const values = getAnswers(q); values[Number(blank)] = e.target.value; state.answers[id] = values;
+      // Editing invalidates any prior grade; shown solutions require a deliberate reset.
+      if (status(id) === 'revealed' || state.results[id]?.seenSolution) state.results[id] = {status:'revealed',seenSolution:true};
+      else delete state.results[id];
+      e.target.classList.remove('incorrect','correct');
+      e.target.style.width = Math.min(35,Math.max(7,e.target.value.length+2))+'ch';
+      const card = e.target.closest('.question-card'); $('.status-pill',card).textContent = labelFor(status(id)); $('.status-pill',card).className = 'status-pill '+status(id);
+      if (status(id) !== 'revealed') $('.question-feedback',card).hidden = true;
+      else {const feedback=$('.question-feedback',card);feedback.className='question-feedback solution';feedback.innerHTML=renderFeedback(q,state.results[id]);feedback.hidden=false;}
+      $$('.blank-input',card).forEach(i => i.classList.remove('correct','incorrect'));
+      save(); updateStats();
+      const m = course.find(x => x.id === active); const count = $('.module-progress strong'); if(count) count.textContent = solved(m)+' / '+m.questions.length;
+      const p = $('[role="progressbar"]'); if(p) { p.setAttribute('aria-valuenow',solved(m)); $('i',p).style.width = solved(m)/m.questions.length*100+'%'; }
+    } else if(e.target.id === 'module-notes') {state.notes[e.target.dataset.module] = e.target.value; save();}
+  });
+  $('#learning-content').addEventListener('keydown', e => {if(e.target.matches('.blank-input') && e.key === 'Enter') {e.preventDefault();check(e.target.dataset.q);}});
+  $('#learning-content').addEventListener('click', e => {
+    const button = e.target.closest('[data-action]'); if(!button) return;
+    const id = button.dataset.q; const action = button.dataset.action;
+    if(action === 'check') check(id);
+    if(action === 'hint') {const h = $('#hint-'+id); h.hidden = !h.hidden; button.setAttribute('aria-expanded',String(!h.hidden));}
+    if(action === 'reveal') {if(status(id) !== 'correct') state.results[id] = {status:'revealed',seenSolution:true}; else {const q = questionMap.get(id).q; $('#feedback-'+id).innerHTML = renderFeedback(q,state.results[id]); toast('已答对，解析显示在题目下方'); return;} save();refreshCard(id);}
+    if(action === 'clear') {delete state.answers[id];delete state.results[id];save();refreshCard(id); $(`[data-q="${id}"].blank-input`)?.focus();}
+    if(action === 'all') {filter='all';search='';$('#search').value='';syncFilters();render();}
+    if(action === 'check-module') {const m=course.find(m=>m.id===active);m.questions.forEach(q=>check(q.id,false));render();toast('本单元已检查：'+solved(m)+' / '+m.questions.length+' 题答对');}
+    if(action === 'prev' || action === 'next') {const i=course.findIndex(m=>m.id===active);if(action==='next' && i===course.length-1) openOverview();else goModule(course[i+(action==='next'?1:-1)]?.id);}
+  });
+  $('#module-nav').addEventListener('click', e => {const b=e.target.closest('[data-module]');if(b) goModule(b.dataset.module);});
+  $('.brand').addEventListener('click',e=>{e.preventDefault();goModule(course[0].id);window.scrollTo({top:0,behavior:'smooth'});});
+  window.addEventListener('hashchange',()=>goModule(location.hash.slice(1)));
+  let searchTimeout;
+  $('#search').addEventListener('input',e=>{clearTimeout(searchTimeout);searchTimeout=setTimeout(()=>{search=e.target.value.trim();render();},160);});
+  $$('.filter-pill').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;syncFilters();render();}));
+  function showDialog(id) {const d=$('#'+id);if(!d.open)d.showModal();}
+  function openOverview() {
+    const revealed=[...questionMap.keys()].filter(id=>status(id)==='revealed').length;
+    $('#overview-body').innerHTML=`<p class="overview-summary">已独立答对 <strong>${totalSolved()} / ${total}</strong> 题，掌握进度 <strong>${Math.round(totalSolved()/total*100)}%</strong>。${revealed ? '另有 '+revealed+' 题已查看参考答案。' : '每次练习都会自动保存。'}</p><div class="overview-grid">${course.map((m,i)=>`<button class="overview-card" data-overview-module="${m.id}"><span>${String(i+1).padStart(2,'0')}</span><strong>${esc(m.title)}</strong><small>${solved(m)} / ${m.questions.length} 题已答对</small><div class="progress-track"><i style="width:${solved(m)/m.questions.length*100}%"></i></div></button>`).join('')}</div><label class="record-name">记录署名（可选）<input id="record-name" type="text" maxlength="60" placeholder="姓名 / 学号" value="${esc(state.name || '')}"></label><p class="storage-note">记录仅保存在当前浏览器；需要留存或交给老师时，请点击“导出记录”。</p>`;
+    showDialog('overview-dialog');
+  }
+  $('#overview-open').addEventListener('click',openOverview);
+  $('#overview-body').addEventListener('click',e=>{const b=e.target.closest('[data-overview-module]');if(b){$('#overview-dialog').close();goModule(b.dataset.overviewModule);}});
+  $('#overview-body').addEventListener('input',e=>{if(e.target.id==='record-name'){state.name=e.target.value;save();}});
+  $('#reference-open').addEventListener('click',()=>{
+    $('#reference-body').innerHTML=`<p class="reference-lead">学习路径中的核心知识集中在这里。需要练习时，回到相应单元。</p><div class="reference-grid">${course.map((m,i)=>`<section class="reference-item"><div class="panel-kicker">${String(i+1).padStart(2,'0')} · ${esc(m.source)}</div><h3>${esc(m.title)}</h3>${m.concepts.map(c=>`<h4>${esc(c.title)}</h4><p>${esc(c.body)}</p>${c.code?`<pre><code>${esc(c.code)}</code></pre>`:''}`).join('')}</section>`).join('')}</div>`;showDialog('reference-dialog');
+  });
+  $('#sources-open').addEventListener('click',()=>showDialog('sources-dialog'));
+  $('#reset-open').addEventListener('click',()=>showDialog('reset-dialog'));
+  $('#reset-confirm').addEventListener('click',()=>{state={answers:{},results:{},notes:{},lastModule:'setup'};save();$('#reset-dialog').close();goModule('setup');toast('已清空学习记录，可以重新开始');});
+  $$('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
+  $$('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}}));
+  function toggleMobile(open) {$('#sidebar').classList.toggle('is-open',open);$('#mobile-scrim').hidden=!open;$('#mobile-toggle').setAttribute('aria-expanded',String(open));document.body.classList.toggle('nav-open',open);}
+  $('#mobile-toggle').addEventListener('click',()=>toggleMobile(!$('#sidebar').classList.contains('is-open')));
+  $('#mobile-scrim').addEventListener('click',()=>toggleMobile(false));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')toggleMobile(false);});
+  $('#export').addEventListener('click',()=>{
+    const stamp=new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false});
+    const lines=['# Python 基础 · 互动学习记录','', '导出时间：'+stamp+'（北京时间）','署名：'+(state.name||'未填写'),`独立答对：${totalSolved()} / ${total} 题`,'','来源：《人工智能分析化学》（2026 年 10 月）Python 部分；练习为教学改编。',''];
+    for(const m of course){lines.push('## '+m.title, m.source, `独立答对 ${solved(m)} / ${m.questions.length} 题`,'');for(const q of m.questions){lines.push('### '+q.title+' ['+labelFor(status(q.id))+']',q.prompt,'','```python',q.code.replace(/\{\{(\d+)\}\}/g,(_,n)=>getAnswers(q)[Number(n)]||'____'),'```','',q.source,'');}if(state.notes[m.id])lines.push('我的笔记：',state.notes[m.id],'');}
+    const blob=new Blob([lines.join('\n')],{type:'text/markdown;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Python基础学习记录-'+new Date().toISOString().slice(0,10)+'.md';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('学习记录已导出');
+  });
+  // Keep the embedded view and a separate practice window in sync.
+  function syncStoredState(event) {
+    if (event && event.key !== undefined && event.key !== KEY && event.key !== null) return;
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw === lastStorageValue) return;
+      const incoming = raw ? JSON.parse(raw) : {};
+      if (!incoming || typeof incoming !== 'object' || Array.isArray(incoming)) return;
+      const next = {answers:{},results:{},notes:{},lastModule:active};
+      for (const key of ['answers','results','notes']) {
+        if (incoming[key] && typeof incoming[key] === 'object' && !Array.isArray(incoming[key])) next[key] = incoming[key];
+      }
+      if (typeof incoming.name === 'string') next.name = incoming.name.slice(0,60);
+      const focused = document.activeElement;
+      const focusSelector = focused?.matches?.('.blank-input') ? `[data-q="${focused.dataset.q}"][data-blank="${focused.dataset.blank}"]` : focused?.id === 'module-notes' ? '#module-notes' : '';
+      const selection = focusSelector ? [focused.selectionStart, focused.selectionEnd] : null;
+      state = next;
+      lastStorageValue = raw;
+      render();
+      const restored = focusSelector ? $(focusSelector) : null;
+      if (restored) {
+        restored.focus({preventScroll:true});
+        try { restored.setSelectionRange(...selection); } catch {}
+      }
+    } catch { /* Current practice remains usable when storage is unavailable. */ }
+  }
+  window.addEventListener('storage',syncStoredState);
+  window.addEventListener('focus',()=>syncStoredState());
+  window.addEventListener('pageshow',()=>syncStoredState());
+  // Restore the optional report signature without trusting saved executable content.
+  try {const stored=JSON.parse(localStorage.getItem(KEY));if(typeof stored?.name==='string')state.name=stored.name.slice(0,60);}catch{}
+  render();
+  if(!storageOK) $('#save-label').textContent='浏览器未允许保存，请导出记录';
+  window.Workbook = Object.freeze({normalize,matches,total,modules:course.length});
+})();
+
+</script>
+</body>
+</html>
