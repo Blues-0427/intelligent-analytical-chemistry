@@ -93,6 +93,9 @@
 <a id="ch15"></a>
 ## 第15章 可信智能分析：不确定度、适用域与因果机制
 
+<a href="#/resources/annual/2026-2027/references/ch15">本组前沿更新卡、34项课程论文引用及版本说明</a>。以下保留原有基准引文。
+
+
 1. Ovadia, Y. *et al.* [Can you trust your model’s uncertainty? Evaluating predictive uncertainty under dataset shift](https://proceedings.neurips.cc/paper/2019/hash/8558cb408c1d76621371888657d2eb1d-Abstract.html). *Advances in Neural Information Processing Systems* **32** (2019).
    - 用途：讨论部署数据偏离训练分布时，不确定度为何会失效；可直接对应仪器漂移、批次变化与未知基质。
 2. Guo, C.; Pleiss, G.; Sun, Y.; Weinberger, K. Q. [On Calibration of Modern Neural Networks](https://proceedings.mlr.press/v70/guo17a.html). *Proceedings of the 34th International Conference on Machine Learning*, 1321–1330 (2017).

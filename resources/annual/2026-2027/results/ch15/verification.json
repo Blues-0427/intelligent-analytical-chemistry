@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "rows": 280,
+  "known_final_test": 36,
+  "unknown_final_test": 100,
+  "pilot_overlap": 0,
+  "checks": [
+    "CSV metrics independently recomputed",
+    "probabilities normalized",
+    "temperature relation and argmax",
+    "pairwise AUROC",
+    "validation-only threshold quantiles",
+    "role counts and unique groups",
+    "finite spectra and exact duplicates",
+    "five explicit seeds"
+  ]
+}

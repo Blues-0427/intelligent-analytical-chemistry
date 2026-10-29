@@ -69,7 +69,8 @@
 
 ### ch15
 
-待本届维护组补充。
+
+<a href="#/resources/annual/2026-2027/questions/ch15">第十五章3道完整传承题、考查目标与答案</a>。
 
 ### ch16
 
