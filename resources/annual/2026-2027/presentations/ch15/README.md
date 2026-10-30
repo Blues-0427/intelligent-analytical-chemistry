@@ -8,4 +8,6 @@
 - <a href="./downloads/word/ch15-course-paper.docx" download>18页课程论文Word</a>
 - <a href="#/resources/annual/2026-2027/results/ch15/README">实验记录</a>
 
-建议讲解约10—12分钟，实际以课程安排为准。课件已经在本机PowerPoint打开和逐页检查，图表保留原生数据。课堂分工、现场汇报与外组评审尚未据此完成。原downloads/word/ch15.docx为基准教材稿，未冒充与本次网页完全同步的出版稿。
+另有<a href="./downloads/word/ch15.docx" download>31页教材同步Word</a>，保留38个编号小节、图表、原生数学对象，并收录34项书目和3道附答案传承题；网页交互转换为静态练习说明。
+
+建议讲解约10—12分钟，实际以课程安排为准。课件已经在本机PowerPoint打开和逐页检查，图表保留原生数据。课堂分工、现场汇报与外组评审尚未据此完成。
