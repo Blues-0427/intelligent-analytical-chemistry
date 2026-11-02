@@ -12,6 +12,17 @@ assert.equal([...refs.matchAll(/<a id="ref-\d+">/g)].length,34);
 for(const m of chapter.matchAll(/\?id=(ref-\d+)/g))assert(refs.includes('id="'+m[1]+'"'),m[1]);
 assert.equal([...read(year+'/questions/ch15.md').matchAll(/^## 题\d /gm)].length,3);
 assert(read('index.html').includes('assets/js/ch15-section-labs.js'));
+// Keep GitHub's native MathML on ordinary rows: mlabeledtr from \\tag stacks in Chromium.
+for(const name of ['docs/ch15.md',year+'/presentations/ch15/course-paper.md']){
+  const source=read(name),blocks=[...source.matchAll(/^\$\$\r?\n([\s\S]*?)\r?\n\$\$/gm)];
+  assert.equal(blocks.length,7,`${name}: seven numbered display equations`);
+  blocks.forEach((m,i)=>assert(m[1].includes('\\text{('+(i+1)+')}'),`${name}: equation number ${i+1}`));
+  assert(!/\\tag\{|\\[{}]/.test(source),`${name}: portable numbering and set braces`);
+  const prose=source.replace(/^\$\$\r?\n[\s\S]*?\r?\n\$\$/gm,'');
+  const inline=[...prose.matchAll(/\$([^$\n]+)\$/g)];
+  assert.equal(inline.length,4,`${name}: complete inline expressions`);
+  for(const m of inline)assert(prose[m.index-1]===' '&&prose[m.index+m[0].length]===' ',`${name}: inline math boundaries`);
+}
 // Resolve the local links introduced by this chapter, not unrelated baseline pages.
 const docs=['docs/ch15.md',year+'/README.md',year+'/questions/README.md',year+'/questions/ch15.md',year+'/references/README.md',year+'/references/ch15.md',year+'/presentations/ch15/README.md',year+'/presentations/ch15/course-paper.md',year+'/results/ch15/README.md'];
 let checkedLinks=0,dualLinks=0;
