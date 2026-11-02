@@ -13,18 +13,21 @@ for(const m of chapter.matchAll(/\?id=(ref-\d+)/g))assert(refs.includes('id="'+m
 assert.equal([...read(year+'/questions/ch15.md').matchAll(/^## 题\d /gm)].length,3);
 assert(read('index.html').includes('assets/js/ch15-section-labs.js'));
 // Resolve the local links introduced by this chapter, not unrelated baseline pages.
-const docs=['docs/ch15.md',year+'/questions/ch15.md',year+'/references/ch15.md',year+'/presentations/ch15/README.md',year+'/presentations/ch15/course-paper.md',year+'/results/ch15/README.md'];
-let checkedLinks=0;
+const docs=['docs/ch15.md',year+'/README.md',year+'/questions/README.md',year+'/questions/ch15.md',year+'/references/README.md',year+'/references/ch15.md',year+'/presentations/ch15/README.md',year+'/presentations/ch15/course-paper.md',year+'/results/ch15/README.md'];
+let checkedLinks=0,dualLinks=0;
 for(const name of docs){
-  const s=read(name),links=[...s.matchAll(/!?\[[^\]\n]*\]\(([^\s)]+)(?:\s+'[^']*')?\)/g)].map(m=>m[1]);
+  const s=read(name),links=[...s.matchAll(/!?\[[^\]\n]*\]\(([^\s)]+)(?:\s+'[^']*')?\)/g)].map(m=>({url:m[1],site:false}));
   assert(!/\]\(#\//.test(s),`${name}: use a root Markdown path or raw HTML for a Docsify page link`);
-  links.push(...[...s.matchAll(/(?:href|src)="([^"]+)"/g)].map(m=>m[1]));
-  for(let link of links){
+  links.push(...[...s.matchAll(/(?<![\w-])(?:href|src)="([^"]+)"/g)].map(m=>({url:m[1],site:false})));
+  const siteLinks=[...s.matchAll(/data-ch15-site-href="([^"]+)"/g)];dualLinks+=siteLinks.length;
+  links.push(...siteLinks.map(m=>({url:m[1],site:true})));
+  for(const item of links){
+    const link=item.url;
     if(/^(?:https?:|mailto:|data:|#(?!\/))/.test(link))continue;
     let target;
     if(link.startsWith('/'))target=link.slice(1).split('?')[0];
-    else if(link.startsWith('#/')){target=link.slice(2).split('?')[0];if(!path.extname(target))target+='.md';}
-    else if(s.includes('href="'+link+'"')||s.includes('('+link+" ':ignore')"))target=link.replace(/^\.\//,'').split(/[?#]/)[0];
+    else if(link.startsWith('#/')){assert(item.site,`${name}: GitHub fallback must target a file, not a Docsify route`);target=link.slice(2).split('?')[0];if(!path.extname(target))target+='.md';}
+    else if(item.site)target=link.replace(/^\.\//,'').split(/[?#]/)[0];
     else target=path.posix.normalize(path.posix.join(path.posix.dirname(name),link.split(/[?#]/)[0]));
     assert(fs.existsSync(path.join(base,decodeURIComponent(target))),`${name} -> ${link} (${target})`);checkedLinks++;
   }
@@ -47,13 +50,17 @@ class Element {
   get innerHTML(){return this.html;}
   querySelector(q){if(q==='form')return this.form;if(q==='.ch15-feedback')return this.feedback;const m=q.match(/data-control="([^"]+)"/);return m?this.controls[m[1]]:null;}
 }
-function environment(numbers){
+function environment(numbers,siteLinks=[]){
   const els=numbers.map(n=>new Element(n)),styles=[];
-  const document={head:{appendChild:s=>styles.push(s)},getElementById:id=>styles.find(s=>s.id===id),createElement:()=>({}),querySelectorAll:()=>els};
+  const anchors=siteLinks.map(site=>({href:'../repository-file.md',getAttribute:k=>k==='data-ch15-site-href'?site:null,setAttribute(k,v){assert.equal(k,'href');this.href=v;}}));
+  const document={head:{appendChild:s=>styles.push(s)},getElementById:id=>styles.find(s=>s.id===id),createElement:()=>({}),querySelectorAll:s=>s==='a[data-ch15-site-href]'?anchors:els};
   const window={document,setTimeout:cb=>cb(),$docsify:{plugins:[]}};vm.runInNewContext(js,{window});
-  let registered;window.$docsify.plugins[0]({doneEach:fn=>{registered=fn;}});assert.equal(typeof registered,'function');registered();return {els,styles,registered};
+  let registered;window.$docsify.plugins[0]({doneEach:fn=>{registered=fn;}});assert.equal(typeof registered,'function');registered();return {els,styles,anchors,registered};
 }
 const empty=environment([]);assert.equal(empty.styles.length,0);
+const linkOnly=environment([],['#/code/ch15_exercises/README','./downloads/word/ch15-course-paper.docx']);
+assert.deepEqual(linkOnly.anchors.map(a=>a.href),['#/code/ch15_exercises/README','./downloads/word/ch15-course-paper.docx']);
+linkOnly.registered();assert.equal(linkOnly.styles.length,0);
 const env=environment(labs);assert.equal(env.styles.length,1);assert.equal(env.els.filter(e=>e.html.includes('<iframe')).length,1);
 for(const el of env.els){
   assert.equal(el.dataset.ch15Mounted,'true');const renders=el.renders;env.registered();assert.equal(el.renders,renders);
@@ -67,4 +74,4 @@ for(const el of env.els){
     c.value=c.initial;el.form.events.reset();assert.equal(output(),initial);
   }
 }
-console.log(JSON.stringify({status:'passed',numbered_subsections:38,section_labs:8,bibliography:34,questions:3,checked_local_links:checkedLinks,checks:['assets and citation targets','numerical simulation invariants','Docsify mount and idempotence','input/change/reset event wiring','no module assets on other chapters'],real_browser_ui:'not covered by this check'},null,2));
+console.log(JSON.stringify({status:'passed',numbered_subsections:38,section_labs:8,bibliography:34,questions:3,checked_local_links:checkedLinks,dual_context_links:dualLinks,checks:['GitHub file fallbacks and Docsify destinations','assets and citation targets','numerical simulation invariants','Docsify mount and idempotence','input/change/reset event wiring','no module assets on other chapters'],real_browser_ui:'not covered by this check'},null,2));

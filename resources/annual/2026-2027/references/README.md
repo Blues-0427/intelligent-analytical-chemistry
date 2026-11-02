@@ -93,7 +93,7 @@
 <a id="ch15"></a>
 ## 第15章 可信智能分析：不确定度、适用域与因果机制
 
-<a href="#/resources/annual/2026-2027/references/ch15">本组前沿更新卡、34项课程论文引用及版本说明</a>。本学年新增条目在下方直接展开；保留原有基准引文。
+<a href="ch15.md" data-ch15-site-href="#/resources/annual/2026-2027/references/ch15">本组前沿更新卡、34项课程论文引用及版本说明</a>。本学年新增条目在下方直接展开；保留原有基准引文。
 
 
 1. Ovadia, Y. *et al.* [Can you trust your model’s uncertainty? Evaluating predictive uncertainty under dataset shift](https://proceedings.neurips.cc/paper/2019/hash/8558cb408c1d76621371888657d2eb1d-Abstract.html). *Advances in Neural Information Processing Systems* **32** (2019).

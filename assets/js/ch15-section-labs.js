@@ -81,6 +81,10 @@
     }
   };
   function mount() {
+    // Repository-relative hrefs work in GitHub; Docsify uses its own routes/base URL.
+    doc.querySelectorAll('a[data-ch15-site-href]').forEach(a=>{
+      a.setAttribute('href',a.getAttribute('data-ch15-site-href'));
+    });
     doc.querySelectorAll('[data-ch15-lab]').forEach(el=>{
       if(el.dataset.ch15Mounted)return;
       const render=views[el.dataset.ch15Lab];if(!render)return;
