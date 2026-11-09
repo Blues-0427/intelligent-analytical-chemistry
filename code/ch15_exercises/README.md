@@ -10,7 +10,24 @@ python code/ch15_exercises/verify_results.py --results .ch15-reproduction
 node code/ch15_exercises/check_site.cjs
 ```
 
-先核验归档结果，再将完整5个种子重新算入临时目录，不覆盖年度归档。`--primary-only`仅重算主种子。完整已用环境见environment.lock.txt；从干净源码导出的本组复核仍不等于非本组独立复现。
+先核验归档结果，再将完整5个种子重新算入临时目录，不覆盖年度归档。完整已用环境见environment.lock.txt。
+
+只需重算和核验主种子时，在两条命令中都使用 `--primary-only`。
+
+```text
+python code/ch15_exercises/run_case.py --primary-only --output .ch15-primary
+python code/ch15_exercises/verify_results.py --primary-only --results .ch15-primary
+```
+
+默认核验要求结果中有全部5个预设种子的记录，缺少任一个会报错。主种子模式要求只有主种子记录。两种模式都从主种子的逐样品CSV独立重算指标，并在 `verification.json` 中分别列出核验模式、检查过的种子记录和实际重算指标的种子。补充种子的逐样品结果不在该CSV中。
+
+核验按RRUFF编号匹配NPZ、样品清单和预测CSV。已知类标签须一致，NPZ和清单中的 `Si_O_without_target_anions` 在预测CSV中对应 `unknown`。每条光谱按清单约定计算SHA-256，标签或散列不一致时报告对应编号。无已知样品被接受时，接受数和错误数均为0，条件错误率记为 `null`（不适用）。
+
+```text
+python code/ch15_exercises/test_verify_results.py -v
+```
+
+回归测试使用原始数据的临时副本，检查标签误改、光谱错配、缺失种子和拒识边界。
 
 数据在data/ch15，年度原输出在resources/annual/2026-2027/results/ch15。图件随重新计算写入指定输出目录的figures；网站引用的已归档SVG/PNG在assets/ch15。本组输入、规则与数值结果没有因网站接入而重新挑选。
 
